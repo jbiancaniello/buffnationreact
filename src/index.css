@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html, body, #root, .landing-page {
+  margin: 0 !important; /* Force remove margin */
+  padding: 0 !important; /* Force remove padding */
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f4; /* Ensure background color is applied */
+  border: none !important; /* Remove any borders */
+}

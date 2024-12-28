@@ -1,0 +1,22 @@
+html, body {
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Apply Inter font globally */
+body {
+    font-family: 'Inter', 'Inter Placeholder', sans-serif; /* Primary and fallback fonts */
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Ensure all elements inherit the body font */
+  * {
+    font-family: inherit;
+  }
+  

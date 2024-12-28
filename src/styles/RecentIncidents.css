@@ -1,0 +1,54 @@
+.recent-incidents {
+    margin: 20px 0;
+  }
+  
+  .recent-incidents h2 {
+    font-size: 24px;
+    color: #000000; /* Text color */
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .incident-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between cards */
+  }
+  
+  .incident-card {
+    background-color: #313131; /* Dark card background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    color: #d1d1d1; /* Text color */
+  }
+  
+  .incident-card p {
+    margin: 5px 0;
+  }
+  
+  .incident-date {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .incident-address, .incident-town {
+    font-size: 16px;
+    color: #d1d1d1;
+  }
+  
+  @media (max-width: 768px) {
+    .incident-card {
+      padding: 10px;
+    }
+  
+    .incident-date {
+      font-size: 16px;
+    }
+  
+    .incident-address, .incident-town {
+      font-size: 14px;
+    }
+  }
+  

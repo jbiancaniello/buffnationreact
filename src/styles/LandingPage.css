@@ -1,0 +1,195 @@
+/* Set background color for the entire landing page */
+.landing-page {
+  background-image: linear-gradient(#979696, #4c4b4b);
+  padding: 10px; /* Reduce overall padding */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header Section */
+header {
+  text-align: center;
+  margin-bottom: 20px; /* Space below the header */
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 5px; /* Reduce space between header lines */
+  color: #ffffff;
+}
+
+header h2 {
+  font-size: 20px;
+  margin: 5px 0; /* Tighten spacing between h2 elements */
+  color: #d1d1d1;
+}
+
+/* Main content layout (desktop view) */
+.landing-page-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns all sections at the top */
+  gap: 20px; /* Space between incidents and stories */
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Recent Incidents and Stories Section */
+.recent-incidents,
+.recent-stories {
+  flex: 1; /* Equal space between sections */
+  display: flex;
+  flex-direction: column; /* Stack title and content */
+}
+
+/* Titles for sections */
+.recent-incidents h2,
+.recent-stories h2 {
+  font-size: 24px;
+  color: #ffffff; /* Match the page theme */
+  margin: 0; /* Remove default margin */
+  text-align: left; /* Align titles to the left */
+  height: 40px; /* Ensure consistent height */
+  display: flex;
+  align-items: center; /* Vertically center titles */
+}
+
+/* Ensure titles and first cards align */
+.recent-incidents {
+  margin-top: 20px; /* Aligns with recent stories */
+}
+
+.incident-list,
+.story-list {
+  margin-top: 10px; /* Ensure cards align with titles */
+}
+
+/* Cards Container Alignment */
+.incident-list,
+.story-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Consistent spacing between cards */
+}
+
+/* Individual Card Styling */
+.incident-card,
+.story-card {
+  background-color: #313131; /* Dark card background */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #d1d1d1; /* Text color */
+  display: flex;
+  align-items: center;
+}
+
+/* Incident Cards */
+.incident-card {
+  flex-direction: column; /* Stack text vertically */
+}
+
+.incident-card p {
+  margin: 5px 0;
+}
+
+.incident-date {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.incident-address,
+.incident-town {
+  font-size: 16px;
+  color: #d1d1d1;
+}
+
+/* Story Cards */
+.story-card {
+  justify-content: space-between; /* Align content and image */
+}
+
+.story-content {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.story-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff; /* Match incident card title color */
+  margin: 0;
+}
+
+.read-more-button {
+  background-color: #ff6f61; /* Accent color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-button:hover {
+  background-color: #ff4a3d; /* Darker hover color */
+}
+
+.story-image-container {
+  flex: 1; /* Allocate less space for the image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-image {
+  max-width: 150px; /* Restrict width */
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the image */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .landing-page-content {
+    flex-direction: column; /* Stack sections vertically */
+    gap: 10px; /* Reduce spacing */
+  }
+
+  .recent-incidents,
+  .recent-stories {
+    width: 100%; /* Full width for both sections */
+  }
+
+  .recent-incidents h2,
+  .recent-stories h2 {
+    font-size: 20px; /* Adjust font size for mobile */
+    margin-bottom: 10px;
+  }
+
+  .story-card {
+    flex-direction: column; /* Stack content vertically */
+    align-items: flex-start;
+  }
+
+  .story-image-container {
+    margin-top: 10px; /* Add spacing between content and image */
+  }
+
+  .story-image {
+    max-width: 100%; /* Make image responsive */
+  }
+
+  .read-more-button {
+    font-size: 14px; /* Adjust button size for smaller screens */
+    padding: 8px 16px;
+  }
+}
