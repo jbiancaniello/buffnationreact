@@ -5,6 +5,16 @@ import "leaflet/dist/leaflet.css";
 import fireIconUrl from "../assets/fire_marker.png";
 import newsIconUrl from "../assets/news_marker.png";
 
+// Fix Leaflet default assets (if default icons are used elsewhere)
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+// Override default icon options
+L.Icon.Default.mergeOptions({
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+});
+
 interface Story {
     [key: string]: string | undefined;
     6: string; // Title
@@ -22,8 +32,8 @@ interface Fire {
     4: string; // Town
     6: string; // Description
     0: string; // Date
-    11: string; // Latitude
-    12: string; // Longitude
+    10: string; // Latitude
+    11: string; // Longitude
 }
 
 const MapSection: React.FC = () => {
@@ -31,100 +41,111 @@ const MapSection: React.FC = () => {
 
     useEffect(() => {
         const apiKey = process.env.REACT_APP_API_KEY;
-        const fireSpreadsheetId =
-            "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
-        const newsSpreadsheetId =
-            "1c0ZiOjzHAkhaEgucExY0logR9P7S6cRbaxtVz4MC2jY";
+        const fireSpreadsheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
+        const newsSpreadsheetId = "1c0ZiOjzHAkhaEgucExY0logR9P7S6cRbaxtVz4MC2jY";
 
-        const fetchGoogleSheetsData = async (
-            spreadsheetId: string,
-            range: string
-        ) => {
+        const fetchGoogleSheetsData = async (spreadsheetId: string, range: string) => {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 return data.values || [];
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error(`Error fetching data for range ${range}:`, error);
                 return [];
             }
         };
 
-        const processAndAddFireMarkers = async (map: L.Map) => {
-            const fireRange1 = "'Suffolk County Working Fire Total'!A2:L";
-            const fireRange2 = "'Nassau County Working Fire Total'!A2:L";
-
-            const [fireData1, fireData2] = await Promise.all([
-                fetchGoogleSheetsData(fireSpreadsheetId, fireRange1),
-                fetchGoogleSheetsData(fireSpreadsheetId, fireRange2),
-            ]);
-
-            const combinedFireData = [...fireData1, ...fireData2] as Fire[];
-
-            const fireIcon = L.icon({
-                iconUrl: fireIconUrl,
+        const processAndAddMarkers = async (
+            map: L.Map,
+            iconUrl: string,
+            data: any[],
+            popupCallback: (item: any) => string,
+            latIndex: number,
+            lngIndex: number
+        ) => {
+            const icon = L.icon({
+                iconUrl,
                 iconSize: [32, 32],
                 iconAnchor: [16, 32],
             });
 
-            combinedFireData.forEach((fire) => {
-                const [latitude, longitude] = [fire[11], fire[12]];
-                if (latitude && longitude) {
-                    L.marker([parseFloat(latitude), parseFloat(longitude)], {
-                        icon: fireIcon,
-                    })
+            const validLatLngs: [number, number][] = [];
+
+            data.forEach((item) => {
+                const latitude = parseFloat(item[latIndex]);
+                const longitude = parseFloat(item[lngIndex]);
+                if (!isNaN(latitude) && !isNaN(longitude)) {
+                    validLatLngs.push([latitude, longitude]);
+                    L.marker([latitude, longitude], { icon })
                         .addTo(map)
-                        .bindPopup(
-                            `<strong>${fire[5]}</strong><br>${fire[3]}<br>${fire[4]}, NY<br>${fire[6]}<br>${fire[0]}`
-                        );
+                        .bindPopup(popupCallback(item));
                 }
             });
+
+            return validLatLngs;
         };
 
-        const processAndAddNewsMarkers = async (map: L.Map) => {
-            const newsRange = "'NewsStory'!A2:N";
-            const newsData = (await fetchGoogleSheetsData(
-                newsSpreadsheetId,
-                newsRange
-            )) as Story[];
+        const initializeMap = async () => {
+            const mapContainer = document.getElementById("map");
+            if (!mapContainer) {
+                console.error("Map container not found.");
+                return;
+            }
 
-            const newsIcon = L.icon({
-                iconUrl: newsIconUrl,
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-            });
+            // Check for an existing map instance
+            if (!mapRef.current) {
+                mapRef.current = L.map(mapContainer).setView([40.7128, -74.006], 10);
 
-            newsData.forEach((story) => {
-                const [latitude, longitude] = [story[11], story[12]];
-                if (latitude && longitude) {
-                    L.marker([parseFloat(latitude), parseFloat(longitude)], {
-                        icon: newsIcon,
-                    })
-                        .addTo(map)
-                        .bindPopup(
-                            `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="${story[9]}" target="_blank">Read More</a>`
-                        );
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                }).addTo(mapRef.current);
+
+                const fireData1 = await fetchGoogleSheetsData(fireSpreadsheetId, "'Suffolk County Working Fire Total'!A2:L");
+                const fireData2 = await fetchGoogleSheetsData(fireSpreadsheetId, "'Nassau County Working Fire Total'!A2:L");
+                const combinedFireData = [...fireData1, ...fireData2] as Fire[];
+
+                const newsData = (await fetchGoogleSheetsData(newsSpreadsheetId, "'NewsStory'!A2:N")) as Story[];
+
+                const fireLatLngs = await processAndAddMarkers(
+                    mapRef.current,
+                    fireIconUrl,
+                    combinedFireData,
+                    (fire) =>
+                        `<strong>${fire[5]}</strong><br>${fire[3]}<br>${fire[4]}, NY<br>${fire[6]}<br>${fire[0]}`,
+                    10,
+                    11
+                );
+
+                const newsLatLngs = await processAndAddMarkers(
+                    mapRef.current,
+                    newsIconUrl,
+                    newsData,
+                    (story) =>
+                        `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="${story[9]}" target="_blank">Read More</a>`,
+                    11,
+                    12
+                );
+
+                const allLatLngs = [...fireLatLngs, ...newsLatLngs];
+                if (allLatLngs.length > 0) {
+                    const avgLat =
+                        allLatLngs.reduce((sum, [lat]) => sum + lat, 0) / allLatLngs.length;
+                    const avgLng =
+                        allLatLngs.reduce((sum, [, lng]) => sum + lng, 0) / allLatLngs.length;
+                    mapRef.current.setView([avgLat, avgLng], 10);
+                } else {
+                    console.warn("No valid coordinates found. Using default center.");
                 }
-            });
+            }
         };
 
-        if (!mapRef.current) {
-            mapRef.current = L.map("map").setView([40.7128, -74.006], 10); // Default center (NYC)
-
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            }).addTo(mapRef.current);
-
-            processAndAddFireMarkers(mapRef.current);
-            processAndAddNewsMarkers(mapRef.current);
-        }
+        initializeMap();
 
         return () => {
             if (mapRef.current) {
-                mapRef.current.remove(); // Properly remove the map instance
-                mapRef.current = null; // Reset the reference
+                mapRef.current.remove();
+                mapRef.current = null;
             }
         };
     }, []);

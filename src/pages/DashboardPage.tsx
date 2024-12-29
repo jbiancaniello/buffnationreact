@@ -1,6 +1,6 @@
 import React from "react";
 import MapSection from "../components/MapSection";
-import StatsCards from "../components/StatsCards";
+import StatsCards from "../components/StatsCharts";
 import "../styles/Dashboard.css";
 
 const Dashboard: React.FC = () => {

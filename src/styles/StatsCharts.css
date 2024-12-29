@@ -1,0 +1,53 @@
+.stats-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    padding: 20px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+}
+
+.chart {
+    background-color: #161b22;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chart h3 {
+    margin-bottom: 15px;
+    color: #58a6ff;
+    text-align: center;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.county-toggle {
+    display: flex;
+    gap: 10px;
+}
+
+.toggle-button {
+    padding: 8px 16px;
+    border: 1px solid #58a6ff;
+    border-radius: 5px;
+    background-color: #161b22;
+    color: #c9d1d9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-button.active {
+    background-color: #58a6ff;
+    color: #0d1117;
+}
+
+.toggle-button:hover {
+    background-color: #58a6ff;
+    color: #0d1117;
+}
+
