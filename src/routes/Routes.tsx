@@ -4,12 +4,12 @@ import LandingPage from "../pages/LandingPage";
 import DashboardPage from "../pages/DashboardPage";
 
 const AppRoutes: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+        </Routes>
+    );
 };
 
 export default AppRoutes;

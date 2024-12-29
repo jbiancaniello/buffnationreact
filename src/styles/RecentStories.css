@@ -1,96 +1,95 @@
 /* Stories section */
 .recent-stories {
-    flex: 2; /* Stories take slightly more space */
-  }
-  
-  .recent-stories h2 {
-    font-size: 24px;
-    color: #000000; /* Text color matching the landing page */
-    margin-bottom: 15px;
-  }
-  
-  /* Story List */
-  .story-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Spacing between story cards */
-  }
-  
-  /* Story Card */
+  flex: 2; /* Stories take slightly more space */
+}
+
+.recent-stories h2 {
+  font-size: 24px;
+  color: #000000; /* Text color matching the landing page */
+  margin-bottom: 15px;
+}
+
+/* Story List */
+.story-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between story cards */
+}
+
+/* Story Card */
+.story-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #313131; /* Match incident card background */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #d1d1d1; /* Text color */
+}
+
+/* Story Content (Left Section) */
+.story-content {
+  flex: 2; /* Allocate more space for the title and button */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between title and button */
+}
+
+.story-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff; /* Match incident card title color */
+  margin: 0;
+}
+
+.read-more-button {
+  background-color: #ff6f61; /* Accent color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-button:hover {
+  background-color: #ff4a3d; /* Darker hover color */
+}
+
+/* Story Image (Right Section) */
+.story-image-container {
+  flex: 1; /* Allocate less space for the image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-image {
+  max-width: 150px; /* Restrict width */
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the image */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
   .story-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #313131; /* Match incident card background */
-    border-radius: 8px; /* Rounded corners */
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    color: #d1d1d1; /* Text color */
+    flex-direction: column; /* Stack content vertically */
+    align-items: flex-start;
   }
-  
-  /* Story Content (Left Section) */
-  .story-content {
-    flex: 2; /* Allocate more space for the title and button */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between title and button */
-  }
-  
-  .story-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ffffff; /* Match incident card title color */
-    margin: 0;
-  }
-  
-  .read-more-button {
-    background-color: #ff6f61; /* Accent color */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    color: #ffffff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .read-more-button:hover {
-    background-color: #ff4a3d; /* Darker hover color */
-  }
-  
-  /* Story Image (Right Section) */
+
   .story-image-container {
-    flex: 1; /* Allocate less space for the image */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 10px; /* Add spacing between content and image */
   }
-  
+
   .story-image {
-    max-width: 150px; /* Restrict width */
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the image */
+    max-width: 100%; /* Make image responsive */
   }
-  
-  /* Responsive adjustments for mobile */
-  @media (max-width: 768px) {
-    .story-card {
-      flex-direction: column; /* Stack content vertically */
-      align-items: flex-start;
-    }
-  
-    .story-image-container {
-      margin-top: 10px; /* Add spacing between content and image */
-    }
-  
-    .story-image {
-      max-width: 100%; /* Make image responsive */
-    }
-  
-    .read-more-button {
-      font-size: 14px; /* Adjust button size for smaller screens */
-      padding: 8px 16px;
-    }
+
+  .read-more-button {
+    font-size: 14px; /* Adjust button size for smaller screens */
+    padding: 8px 16px;
   }
-  
+}

@@ -1,19 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../styles/Topbar.css"; // Add a CSS file for better styling
+import MapSection from "../components/MapSection";
+import StatsCards from "../components/StatsCards";
+import "../styles/Dashboard.css";
 
-const Topbar: React.FC = () => {
-  return (
-    <div className="topbar">
-      <div className="topbar-left">
-        <h1 className="logo">BuffNation</h1>
-      </div>
-      <div className="topbar-right">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/dashboard" className="nav-link">Dashboard</Link>
-      </div>
-    </div>
-  );
+const Dashboard: React.FC = () => {
+    return (
+        <div className="dashboard">
+            <header>
+                <h1>Dashboard</h1>
+                <p>A comprehensive view of fire incidents and news.</p>
+            </header>
+            <main>
+                <StatsCards />
+                <div className="dashboard-content">
+                    <MapSection />
+                </div>
+            </main>
+        </div>
+    );
 };
 
-export default Topbar;
+export default Dashboard;

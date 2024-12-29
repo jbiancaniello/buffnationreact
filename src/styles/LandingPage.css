@@ -57,11 +57,6 @@ header h2 {
   align-items: center; /* Vertically center titles */
 }
 
-/* Ensure titles and first cards align */
-.recent-incidents {
-  margin-top: 20px; /* Aligns with recent stories */
-}
-
 .incident-list,
 .story-list {
   margin-top: 10px; /* Ensure cards align with titles */
