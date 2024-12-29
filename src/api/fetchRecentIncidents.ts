@@ -1,6 +1,6 @@
 import { Incident } from "../types";
 
-const API_KEY = "AIzaSyCcN-Zf5d77M-J8Guq25DKlVJkSAWm7NfQ";
+const API_KEY = process.env.REACT_APP_API_KEY;
 const SPREADSHEET_ID = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
 
 export const fetchRecentIncidents = async (): Promise<Incident[]> => {
