@@ -1,6 +1,6 @@
 /* Set background color for the entire landing page */
 .landing-page {
-  background-image: linear-gradient(#979696, #4c4b4b);
+  background: #000000;
   padding: 10px; /* Reduce overall padding */
   min-height: 100vh;
   display: flex;
@@ -55,6 +55,11 @@ header h2 {
   height: 40px; /* Ensure consistent height */
   display: flex;
   align-items: center; /* Vertically center titles */
+}
+
+/* Ensure titles and first cards align */
+.recent-incidents {
+  margin-top: 20px; /* Aligns with recent stories */
 }
 
 .incident-list,
