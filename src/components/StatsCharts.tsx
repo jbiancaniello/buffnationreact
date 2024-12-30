@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
     BarChart,
     Bar,
-    LineChart,
-    Line,
+    AreaChart,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
+    Area,
+    Legend,
 } from "recharts";
 import "../styles/StatsCharts.css";
 
@@ -41,8 +42,12 @@ const StatsCharts: React.FC = () => {
     const [firesByBattalion, setFiresByBattalion] = useState<FiresByBattalion[]>([]);
     const [suffolkFiresByMonth, setSuffolkFiresByMonth] = useState<FiresByMonth[]>([]);
     const [nassauFiresByMonth, setNassauFiresByMonth] = useState<FiresByMonth[]>([]);
-    const [mostFiresByDept, setMostFiresByDept] = useState<MostFiresByDept[]>([]);
+    const [selectedDeptCounty, setSelectedDeptCounty] = useState<"Suffolk" | "Nassau">(
+        "Suffolk"
+    );
 
+    const [mostFiresByDeptData, setMostFiresByDeptData] = useState<MostFiresByDept[]>([]);
+    
     const apiKey = process.env.REACT_APP_API_KEY;
 
     const fetchGoogleSheetsData = async (spreadsheetId: string, range: string) => {
@@ -152,10 +157,35 @@ const StatsCharts: React.FC = () => {
         setSuffolkFiresByMonth(Object.values(mergedData));
     };    
 
+    const fetchMostFiresByDept = async () => {
+        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU"; // Same spreadsheet for both tabs
+        const currentYear = new Date().getFullYear();
+    
+        const range =
+            selectedDeptCounty === "Suffolk"
+                ? "'Suffolk Departments'!A2:C" // Suffolk tab
+                : "'Nassau Departments'!A2:C"; // Nassau tab
+    
+        const data = await fetchGoogleSheetsData(sheetId, range);
+    
+        // Filter for the current year, map, sort by count, and limit to the top 10
+        const sortedData = data
+            .filter(([_, year]: [string, string, string]) => parseInt(year, 10) === currentYear) // Filter by year
+            .map(([dept, , count]: [string, string, string]) => ({
+                dept,
+                fires: parseInt(count, 10),
+            }))
+            .sort((a: MostFiresByDept, b: MostFiresByDept) => b.fires - a.fires) // Sort by fires (descending)
+            .slice(0, 10); // Limit to top 10
+    
+        setMostFiresByDeptData(sortedData);
+    }; 
+
     useEffect(() => {
         fetchFiresByBattalion();
         fetchFiresByMonth();
-    }, [selectedCounty]);
+        fetchMostFiresByDept();
+    }, [selectedCounty, selectedDeptCounty]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -184,22 +214,6 @@ const StatsCharts: React.FC = () => {
 
             setFiresToday(firesTodayCount);
             setFiresThisWeek(firesThisWeekCount);
-
-            // Most Fires by Department
-            const mostFiresSuffolk = await fetchGoogleSheetsData(
-                suffolkSheetId,
-                "'Most Working Fires in Suffolk'!A2:B"
-            );
-            const mostFiresNassau = await fetchGoogleSheetsData(
-                nassauSheetId,
-                "'Most Working Fires in Nassau'!A2:B"
-            );
-            setMostFiresByDept(
-                [...mostFiresSuffolk, ...mostFiresNassau].map(([dept, fires]) => ({
-                    dept,
-                    fires: parseInt(fires, 10),
-                }))
-            );
         };
 
         fetchData();
@@ -208,14 +222,17 @@ const StatsCharts: React.FC = () => {
     return (
         <div className="stats-charts">
             {/* Fires Today and This Week */}
-            <div className="stats-summary">
-                <div className="fires-today">
-                    <h3>Fires Today</h3>
-                    <p>{firesToday}</p>
-                </div>
-                <div className="fires-this-week">
-                    <h3>Fires This Week</h3>
-                    <p>{firesThisWeek}</p>
+            <div>
+                <div className="live-data-label">Live Data 2024</div>
+                <div className="stats-summary">
+                    <div className="fires-today">
+                        <h3>Fires Today</h3>
+                        <p>{firesToday}</p>
+                    </div>
+                    <div className="fires-this-week">
+                        <h3>Fires This Week</h3>
+                        <p>{firesThisWeek}</p>
+                    </div>
                 </div>
             </div>
 
@@ -244,53 +261,105 @@ const StatsCharts: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={500}>
                     <BarChart data={firesByBattalion}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="fires" fill="#82ca9d" />
+                        <Bar
+                            dataKey="fires"
+                            fill="#ff0000"
+                            fillOpacity={0.5}
+                            stroke="#ff0000"
+                            strokeWidth={2}
+                        />
                     </BarChart>
                 </ResponsiveContainer>
+
             </div>
 
             {/* Fires by Month */}
             <div className="chart fires-by-month">
                 <h3>Total Fires by Month</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={suffolkFiresByMonth}>
+                <ResponsiveContainer width="100%" height={500}>
+                    <AreaChart data={suffolkFiresByMonth}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
-                        <Line
+                        <Legend 
+                            verticalAlign="top" // Position the legend (top, bottom, left, right)
+                            align="center" // Align legend items (center, left, right)
+                            wrapperStyle={{
+                                paddingBottom: 10, // Adjust padding below the legend
+                                fontSize: "14px", // Optional: Customize font size
+                                color: "#ff0000", // Optional: Customize text color
+                            }}
+                        />
+                        {/* Suffolk Fires Area */}
+                        <Area
                             type="monotone"
                             dataKey="SuffolkFires"
                             name="Suffolk"
-                            stroke="#8884d8"
+                            stroke="#ff0000"
+                            fill="#ff0000"
+                            fillOpacity={0.2}
+                            strokeWidth={2}
+                            dot={{ r: 4 }} // Adds dots for data points
                         />
-                        <Line
+                        {/* Nassau Fires Area */}
+                        <Area
                             type="monotone"
                             dataKey="NassauFires"
                             name="Nassau"
-                            stroke="#82ca9d"
+                            stroke="#ff3333"
+                            fill="#ff3333"
+                            fillOpacity={0.2}
+                            strokeWidth={2}
+                            dot={{ r: 4 }} // Adds dots for data points
                         />
-                    </LineChart>
+                    </AreaChart>
                 </ResponsiveContainer>
             </div>
 
 
             {/* Most Fires by Department */}
             <div className="chart most-fires-by-dept">
-                <h3>Most Working Fires by Department</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={mostFiresByDept}>
+                <div className="chart-header">
+                    <h3>{`Most Working Fires by Department`}</h3>
+                    <div className="county-toggle">
+                        <button
+                            className={`toggle-button ${
+                                selectedDeptCounty === "Suffolk" ? "active" : ""
+                            }`}
+                            onClick={() => setSelectedDeptCounty("Suffolk")}
+                        >
+                            Suffolk
+                        </button>
+                        <button
+                            className={`toggle-button ${
+                                selectedDeptCounty === "Nassau" ? "active" : ""
+                            }`}
+                            onClick={() => setSelectedDeptCounty("Nassau")}
+                        >
+                            Nassau
+                        </button>
+                    </div>
+                </div>
+                <ResponsiveContainer width="100%" height={500}>
+                    <BarChart data={mostFiresByDeptData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="dept" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="fires" fill="#ffc658" />
+                        <Bar
+                            dataKey="fires"
+                            fill="#ff0000"
+                            fillOpacity={0.5}
+                            stroke="#ff0000"
+                            strokeWidth={2}
+                        />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

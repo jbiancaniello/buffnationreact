@@ -3,12 +3,12 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
     padding: 20px;
-    background-color: #0d1117;
+    background-color: #000000;
     color: #c9d1d9;
 }
 
 .chart {
-    background-color: #161b22;
+    background-color: #1a1a1a;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -16,7 +16,7 @@
 
 .chart h3 {
     margin-bottom: 15px;
-    color: #58a6ff;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -33,21 +33,71 @@
 
 .toggle-button {
     padding: 8px 16px;
-    border: 1px solid #58a6ff;
+    border: 1px solid #dc1515;
     border-radius: 5px;
-    background-color: #161b22;
+    background-color: #1a1a1a;
     color: #c9d1d9;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .toggle-button.active {
-    background-color: #58a6ff;
-    color: #0d1117;
+    background-color: #dc1515;
+    color: #ffffff;
 }
 
 .toggle-button:hover {
-    background-color: #58a6ff;
-    color: #0d1117;
+    background-color: #dc1515;
+    color: #ffffff;
 }
 
+.stats-summary {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 20px 0;
+    height: 83%; /* Ensure it uses full height available */
+}
+
+.stats-summary h3 {
+    margin: 10px;
+    font-size: 4rem;
+    color: #c9d1d9;
+}
+
+.stats-summary p {
+    font-size: 7rem;
+    font-weight: bold;
+}
+
+.fires-today,
+.fires-this-week {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Allow it to stretch vertically */
+    padding: 30px; /* Add more padding for a spacious look */
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.fires-today {
+    color: #58a6ff;
+}
+
+.fires-this-week {
+    color: #f7768e;
+}
+
+
+.live-data-label {
+    text-align: center;
+    font-size: 3rem;
+    color: #d6dbe0;
+    margin-bottom: 10px;
+}
