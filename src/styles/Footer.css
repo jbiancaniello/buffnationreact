@@ -1,0 +1,26 @@
+.site-footer {
+    background-color: #000000;
+    color: #c9d1d9;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+}
+
+.social-media-icons {
+    margin-bottom: 10px;
+}
+
+.social-icon {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #c9d1d9;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #007bff; /* Change to a brighter color on hover */
+}
+
+.copyright {
+    margin: 0;
+}
