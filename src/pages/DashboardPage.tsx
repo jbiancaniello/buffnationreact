@@ -13,18 +13,17 @@ const DashboardPage: React.FC = () => {
     return (
         <div className="dashboard">
             <header className="dashboard-header">
-                <h1>Dashboard</h1>
-                <div className="year-filter">
-                    <label htmlFor="year-select">Year:</label>
-                    <select id="year-select" value={selectedYear} onChange={handleYearChange}>
-                        {/* Dynamically populate years */}
-                        {["2025", "2024"].map((year) => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+            <h1>Dashboard</h1>
+            <div className="year-filter">
+                <label htmlFor="year-select">Year:</label>
+                <select id="year-select" value={selectedYear} onChange={handleYearChange}>
+                {["2025", "2024"].map((year) => (
+                    <option key={year} value={year}>
+                    {year}
+                    </option>
+                ))}
+                </select>
+            </div>
             </header>
             <main>
                 <StatsCharts selectedYear={selectedYear} />

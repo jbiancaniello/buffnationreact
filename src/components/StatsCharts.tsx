@@ -198,16 +198,15 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
     return (
         <div className="stats-charts">
             {/* Fires Today and This Week */}
-            <div>
-                <div className="stats-summary">
-                    <div className="fires-today">
-                        <h3>Fires Today</h3>
-                        <p>{firesToday}</p>
-                    </div>
-                    <div className="fires-this-week">
-                        <h3>Fires This Week</h3>
-                        <p>{firesThisWeek}</p>
-                    </div>
+            <div className="stats-summary fires-today-and-week">
+                <div className="fires-today">
+                    <h3>Fires Today</h3>
+                    <p>{firesToday}</p>
+                </div>
+                <div className="divider"></div>
+                <div className="fires-this-week">
+                    <h3>Fires This Week</h3>
+                    <p>{firesThisWeek}</p>
                 </div>
             </div>
 

@@ -1,12 +1,16 @@
 /* Stories section */
 .recent-stories {
   flex: 2; /* Stories take slightly more space */
+  margin-top: 0; /* Remove unnecessary offsets */
+  padding-top: 0; /* Ensure consistent padding */
 }
 
 .recent-stories h2 {
-  font-size: 24px;
-  color: #000000; /* Text color matching the landing page */
-  margin-bottom: 15px;
+  font-size: 28px; /* Match Recent Incidents */
+  color: #ffffff; /* Text color */
+  margin: 0; /* Remove unnecessary offsets */
+  padding: 10px 0; /* Ensure consistent padding */
+  text-align: center; /* Center text on all screen sizes */
 }
 
 /* Story List */
@@ -28,68 +32,58 @@
   color: #d1d1d1; /* Text color */
 }
 
-/* Story Content (Left Section) */
-.story-content {
-  flex: 2; /* Allocate more space for the title and button */
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Space between title and button */
-}
-
-.story-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff; /* Match incident card title color */
-  margin: 0;
-}
-
-.read-more-button {
-  background-color: #ff6f61; /* Accent color */
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.read-more-button:hover {
-  background-color: #ff4a3d; /* Darker hover color */
-}
-
-/* Story Image (Right Section) */
+/* Story Image Container (Right Section) */
 .story-image-container {
-  flex: 1; /* Allocate less space for the image */
+  flex-shrink: 0; /* Prevent shrinking of the image container */
   display: flex;
-  justify-content: center;
+  justify-content: flex-end; /* Align image to the right */
   align-items: center;
+  width: 150px; /* Fixed width for consistent alignment */
 }
 
 .story-image {
-  max-width: 150px; /* Restrict width */
-  height: auto;
+  max-width: 100%;
+  height: auto; /* Preserve aspect ratio */
   border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the image */
+  object-fit: cover; /* Ensure the image fills its container without distortion */
 }
 
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
+  /* Stack story content side by side like desktop */
   .story-card {
-    flex-direction: column; /* Stack content vertically */
-    align-items: flex-start;
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: space-between;
+    align-items: center;
   }
 
+  /* Story content (text and button on the left) */
+  .story-content {
+    flex: 2;
+    display: flex;
+    flex-direction: column; /* Stack text and button vertically */
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  /* Align the button consistently */
+  .read-more-button {
+    align-self: flex-start; /* Align button to the start of the content */
+  }
+
+  /* Image container (on the right) */
   .story-image-container {
-    margin-top: 10px; /* Add spacing between content and image */
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; /* Align image to the right */
+    align-items: center;
+    width: 150px; /* Fixed width for consistency */
   }
 
   .story-image {
-    max-width: 100%; /* Make image responsive */
-  }
-
-  .read-more-button {
-    font-size: 14px; /* Adjust button size for smaller screens */
-    padding: 8px 16px;
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px;
+    object-fit: cover; /* Ensure image fills container */
   }
 }

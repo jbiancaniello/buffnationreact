@@ -27,3 +27,19 @@
   background-color: #58a6ff;
   color: #0d1117;
 }
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .map-section .map {
+    height: 300px; /* Reduce height for smaller screens */
+  }
+
+  .map-toggle-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 5px; /* Reduce gap */
+  }
+
+  .toggle-button {
+    padding: 6px 12px; /* Reduce padding */
+  }
+}
