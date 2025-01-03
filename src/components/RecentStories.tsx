@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Story } from "../types";
 import "../styles/RecentStories.css";
 
@@ -7,12 +8,14 @@ interface Props {
 }
 
 const RecentStories: React.FC<Props> = ({ stories }) => {
+    const navigate = useNavigate(); // Initialize the navigate hook
+
     return (
         <div className="recent-stories">
             <h2>Recent Stories</h2>
             <div className="story-list">
                 {stories.map((story: Story, index: number) => {
-                    const imageId = story.imageUrl?.split("id=")[1];
+                    const imageId = story["Link to image"].split("id=")[1];
                     const imageUrl = imageId
                         ? `https://drive.google.com/thumbnail?id=${imageId}&sz=w1024-h768`
                         : "";
@@ -21,15 +24,11 @@ const RecentStories: React.FC<Props> = ({ stories }) => {
                         <div className="story-card" key={index}>
                             {/* Left Section: Title and Button */}
                             <div className="story-content">
-                                <h3 className="story-title">{story.title}</h3>
+                                <h3 className="story-title">{story.Headline}</h3>
                                 <button
                                     className="read-more-button"
-                                    onClick={() => {
-                                        // Replace with navigation logic later
-                                        alert(
-                                            `Navigate to: ${story.headlineUrl}`
-                                        );
-                                    }}>
+                                    onClick={() => navigate(story.headlineUrl)} // Navigate to headlineUrl
+                                >
                                     Read More
                                 </button>
                             </div>
@@ -39,7 +38,7 @@ const RecentStories: React.FC<Props> = ({ stories }) => {
                                 <div className="story-image-container">
                                     <img
                                         src={imageUrl}
-                                        alt={story.title}
+                                        alt={story.Headline}
                                         className="story-image"
                                     />
                                 </div>

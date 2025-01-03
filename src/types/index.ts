@@ -1,10 +1,16 @@
 export interface Story {
-  title: string;
-  imageUrl: string;
-  headlineUrl: string;
-  description: string;
+  Headline: string;
+  "Link to image": string;
+  "Body Text": string;
   photoGallery: string;
-  date: Date;
+  Date: Date;
+  "Location - Street": string;
+  "Location - Town": string;
+  Latitude: string; // Add Latitude
+  Longitude: string; // Add Longitude
+  Department: string;
+  headlineUrl: string;
+  id?: string;
 }
 
 export interface Incident {
@@ -12,4 +18,7 @@ export interface Incident {
   Address: string;
   Town: string;
   Department: string;
+  Latitude: string; // Add Latitude
+  Longitude: string; // Add Longitude
+  Battalion?: string;
 }

@@ -1,23 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import StatsCharts from "../components/StatsCharts";
 import MapSection from "../components/MapSection";
-import StatsCards from "../components/StatsCharts";
 import "../styles/Dashboard.css";
 
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
+    const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
+
+    const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedYear(event.target.value);
+    };
+
     return (
         <div className="dashboard">
-            <header>
+            <header className="dashboard-header">
                 <h1>Dashboard</h1>
-                <p>A comprehensive view of fire incidents and news.</p>
+                <div className="year-filter">
+                    <label htmlFor="year-select">Year:</label>
+                    <select id="year-select" value={selectedYear} onChange={handleYearChange}>
+                        {/* Dynamically populate years */}
+                        {["2025", "2024"].map((year) => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </header>
             <main>
-                <StatsCards />
-                <div className="dashboard-content">
-                    <MapSection />
-                </div>
+                <StatsCharts selectedYear={selectedYear} />
+                <MapSection selectedYear={selectedYear} />
             </main>
         </div>
     );
 };
 
-export default Dashboard;
+export default DashboardPage;

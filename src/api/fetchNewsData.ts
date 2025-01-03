@@ -7,6 +7,13 @@ export const fetchNewsData = async (): Promise<Story[]> => {
 
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
+  const generateSlug = (headline: string): string => {
+    return headline
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with hyphens
+      .replace(/(^-|-$)/g, "");   // Remove leading or trailing hyphens
+  };
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -16,25 +23,39 @@ export const fetchNewsData = async (): Promise<Story[]> => {
 
     const data = await response.json();
     const rows = data.values || [];
+    const headers = rows[0];
+    const rowData = rows.slice(1);
 
     // Transform rows into story objects
-    const stories: Story[] = rows.slice(1).map((row: string[]) => ({
-      title: row[6] || "Untitled Story",
-      imageUrl: row[10]
-        ? `https://drive.google.com/thumbnail?id=${row[10].split("id=")[1]}&sz=w1024-h768`
-        : "",
-      headlineUrl: `/story/${(row[6] || "untitled-story")
-        .replace(/\s+/g, "-")
-        .toLowerCase()}`,
-      description: row[8] || "",
-      photoGallery: row[9] || "",
-      date: new Date(row[0]), // Assuming row[0] contains the date
-    }));
+    const stories: Story[] = rowData.map((row: string[]) => {
+      const rawDate = row[0]; // Assuming the first column contains the date
+      const parsedDate = new Date(rawDate);
 
-    // Sort stories by date descending and return the 4 most recent
+      const headline = row[6] || "Untitled Story";
+
+      return {
+        Headline: headline,
+        "Link to image": row[10]
+          ? `https://drive.google.com/thumbnail?id=${row[10].split("id=")[1]}&sz=w1024-h768`
+          : "",
+        "Body Text": row[8] || "",
+        photoGallery: row[9] || "",
+        Date: !isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
+        "Location - Street": row[2] || "Unknown Street",
+        "Location - Town": row[3] || "Unknown Town",
+        Latitude: row[4] || "",
+        Longitude: row[5] || "",
+        Department: row[1] || "Unknown Department",
+        headlineUrl: `/story/${generateSlug(headline)}`, // Use the generateSlug function for consistency
+        id: generateSlug(headline), // Use slugified headline as id
+      };
+    });
+
+    // Sort stories by Date descending and return the 4 most recent
     return stories
-      .sort((a: Story, b: Story) => b.date.getTime() - a.date.getTime()) // Explicitly type a and b
-      .slice(0, 4); // Get the 4 most recent
+      .filter((story) => !isNaN(story.Date.getTime())) // Ensure valid dates
+      .sort((a, b) => b.Date.getTime() - a.Date.getTime())
+      .slice(0, 4);
   } catch (error) {
     console.error("Error fetching news data:", error);
     return [];

@@ -5,3 +5,25 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+.map-toggle-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.toggle-button {
+  padding: 8px 16px;
+  border: 1px solid #58a6ff;
+  border-radius: 5px;
+  background-color: #161b22;
+  color: #c9d1d9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: #58a6ff;
+  color: #0d1117;
+}

@@ -33,7 +33,11 @@ interface MostFiresByDept {
     fires: number;
 }
 
-const StatsCharts: React.FC = () => {
+interface StatsChartsProps {
+    selectedYear: string;
+}
+
+const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
     const [firesToday, setFiresToday] = useState<number>(0);
     const [firesThisWeek, setFiresThisWeek] = useState<number>(0);
     const [selectedCounty, setSelectedCounty] = useState<"Suffolk" | "Nassau">(
@@ -45,9 +49,8 @@ const StatsCharts: React.FC = () => {
     const [selectedDeptCounty, setSelectedDeptCounty] = useState<"Suffolk" | "Nassau">(
         "Suffolk"
     );
-
     const [mostFiresByDeptData, setMostFiresByDeptData] = useState<MostFiresByDept[]>([]);
-    
+
     const apiKey = process.env.REACT_APP_API_KEY;
 
     const fetchGoogleSheetsData = async (spreadsheetId: string, range: string) => {
@@ -63,48 +66,23 @@ const StatsCharts: React.FC = () => {
     };
 
     const fetchFiresByBattalion = async () => {
-        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU"; // Same spreadsheet ID for both tabs
-        const currentYear = new Date().getFullYear();
-    
+        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
         const range =
             selectedCounty === "Suffolk"
-                ? "'Suffolk Divisions'!A2:C" // Suffolk tab
-                : "'Nassau Battalion'!A2:C"; // Nassau tab
+                ? "'Suffolk Divisions'!A2:C"
+                : "'Nassau Battalion'!A2:C";
     
         const data = await fetchGoogleSheetsData(sheetId, range);
-        console.log(`${selectedCounty} data:`, data); // Log the fetched data
     
-        // Define the order of divisions/battalions
+        // Convert year to string for safe comparison
+        const filteredData = data.filter(
+            ([, year]: [string, string, string]) => year.toString() === selectedYear
+        );
+    
         const order =
             selectedCounty === "Suffolk"
-                ? [
-                      "1st Division",
-                      "2nd Division",
-                      "3rd Division",
-                      "4th Division",
-                      "5th Division",
-                      "6th Division",
-                      "7th Division",
-                      "8th Division",
-                      "9th Division",
-                      "10th Division",
-                  ]
-                : [
-                      "1st Battalion",
-                      "2nd Battalion",
-                      "3rd Battalion",
-                      "4th Battalion",
-                      "5th Battalion",
-                      "6th Battalion",
-                      "7th Battalion",
-                      "8th Battalion",
-                      "9th Battalion",
-                  ];
-    
-        // Map data, filter for the current year, and ensure it is in the correct order
-        const filteredData = data.filter(
-            ([, year]: [string, string, string]) => parseInt(year, 10) === currentYear
-        );
+                ? ["1st Division", "2nd Division", "3rd Division", "4th Division", "5th Division", "6th Division", "7th Division", "8th Division", "9th Division", "10th Division"]
+                : ["1st Battalion", "2nd Battalion", "3rd Battalion", "4th Battalion", "5th Battalion", "6th Battalion", "7th Battalion", "8th Battalion", "9th Battalion"];
     
         const sortedData = order.map((name) => {
             const matchingEntry = filteredData.find(
@@ -117,12 +95,10 @@ const StatsCharts: React.FC = () => {
         });
     
         setFiresByBattalion(sortedData);
-    };
+    };    
 
     const fetchFiresByMonth = async () => {
-        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU"; // Same spreadsheet for both tabs
-        const currentYear = new Date().getFullYear();
-    
+        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
         const suffolkRange = "'Suffolk County Fires by Month'!A2:D";
         const nassauRange = "'Nassau County Fires by Month'!A2:D";
     
@@ -133,10 +109,10 @@ const StatsCharts: React.FC = () => {
             data
                 .filter(
                     ([, year]: [string, string, string, string]) =>
-                        parseInt(year, 10) === currentYear
+                        year.toString() === selectedYear
                 )
                 .map(([month, , monthName, count]: [string, string, string, string]) => ({
-                    month: monthName,
+                    month: monthName || month, // Use display name if available
                     [`${county}Fires`]: parseInt(count, 10),
                 }));
     
@@ -155,44 +131,43 @@ const StatsCharts: React.FC = () => {
         );
     
         setSuffolkFiresByMonth(Object.values(mergedData));
-    };    
+    };
+    
 
     const fetchMostFiresByDept = async () => {
-        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU"; // Same spreadsheet for both tabs
-        const currentYear = new Date().getFullYear();
-    
+        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
         const range =
             selectedDeptCounty === "Suffolk"
-                ? "'Suffolk Departments'!A2:C" // Suffolk tab
-                : "'Nassau Departments'!A2:C"; // Nassau tab
-    
+                ? "'Suffolk Departments'!A2:C"
+                : "'Nassau Departments'!A2:C";
+
         const data = await fetchGoogleSheetsData(sheetId, range);
-    
-        // Filter for the current year, map, sort by count, and limit to the top 10
-        const sortedData = data
-            .filter(([_, year]: [string, string, string]) => parseInt(year, 10) === currentYear) // Filter by year
+        const filteredData = data.filter(
+            ([, year]: [string, string, string]) => year === selectedYear
+        );
+
+        const sortedData = filteredData
             .map(([dept, , count]: [string, string, string]) => ({
                 dept,
                 fires: parseInt(count, 10),
             }))
-            .sort((a: MostFiresByDept, b: MostFiresByDept) => b.fires - a.fires) // Sort by fires (descending)
-            .slice(0, 10); // Limit to top 10
-    
+            .sort((a: MostFiresByDept, b: MostFiresByDept) => b.fires - a.fires)
+            .slice(0, 10);
+
         setMostFiresByDeptData(sortedData);
-    }; 
+    };
 
     useEffect(() => {
         fetchFiresByBattalion();
         fetchFiresByMonth();
         fetchMostFiresByDept();
-    }, [selectedCounty, selectedDeptCounty]);
+    }, [selectedCounty, selectedDeptCounty, selectedYear]);
 
     useEffect(() => {
         const fetchData = async () => {
             const suffolkSheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
             const nassauSheetId = "1c0ZiOjzHAkhaEgucExY0logR9P7S6cRbaxtVz4MC2jY";
 
-            // Fires Today vs This Week
             const suffolkFires = await fetchGoogleSheetsData(
                 suffolkSheetId,
                 "'Suffolk County Working Fire Total'!A2:A"
@@ -201,6 +176,7 @@ const StatsCharts: React.FC = () => {
                 nassauSheetId,
                 "'Nassau County Working Fire Total'!A2:A"
             );
+
             const today = new Date().toISOString().split("T")[0];
             const pastWeek = new Date();
             pastWeek.setDate(pastWeek.getDate() - 7);
@@ -223,7 +199,6 @@ const StatsCharts: React.FC = () => {
         <div className="stats-charts">
             {/* Fires Today and This Week */}
             <div>
-                <div className="live-data-label">Live Data 2024</div>
                 <div className="stats-summary">
                     <div className="fires-today">
                         <h3>Fires Today</h3>
