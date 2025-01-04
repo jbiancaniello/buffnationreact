@@ -1,0 +1,108 @@
+/* General styling for All Stories Page */
+.all-stories-page {
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+}
+
+.all-stories-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ff4500;
+}
+
+/* Stories grid layout */
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Increase min width to make cards wider */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Story card styling */
+.story-card {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 15px;
+  text-align: left;
+}
+
+.story-card-image {
+  width: 100%;
+  height: 200px; /* Increase height slightly for better proportions */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.story-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.story-card-content h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.story-card-content p {
+  font-size: 0.9rem;
+  color: #d3d3d3;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.read-more-button {
+  background-color: #ff4500;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-start;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-button:hover {
+  background-color: #e63900;
+}
+
+/* Pagination styling */
+.pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: #2e2e2e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #ff4500;
+}
+
+.pagination button.active {
+  background-color: #ff4500;
+}

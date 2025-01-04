@@ -3,26 +3,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 50px;
+  padding: 15px 20px;
   background-color: #2e2e2e;
   color: #ffffff;
   border-bottom: 2px solid #444;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
 }
 
 /* Left section with logo and text */
 .topbar-left {
   display: flex;
-  align-items: center; /* Align items vertically in the middle */
-  gap: 10px; /* Add spacing between the logo and the text */
+  align-items: center;
+  gap: 10px;
 }
 
-/* Logo image */
 .logo-image {
-  height: 40px; /* Adjust size as needed */
+  height: 40px;
 }
 
-/* Logo text */
 .logo {
   font-size: 28px;
   font-weight: bold;
@@ -35,12 +35,15 @@
 .topbar-right {
   display: flex;
   gap: 30px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .nav-link {
   text-decoration: none;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   transition: color 0.3s ease;
 }
@@ -49,20 +52,49 @@
   color: #ff6f61;
 }
 
+/* Mobile menu toggle button */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  margin-left: auto;
+}
+
 /* Responsive styling */
 @media (max-width: 768px) {
   .topbar {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    padding: 10px 15px;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    right: 15px;
   }
 
   .topbar-right {
-    margin-top: 10px;
-    gap: 20px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #2e2e2e;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  .topbar-right.open {
+    display: flex;
   }
 
   .nav-link {
-    font-size: 18px;
+    margin: 10px 0;
   }
 }

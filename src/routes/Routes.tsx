@@ -5,6 +5,7 @@ import DashboardPage from "../pages/DashboardPage";
 import DepartmentLookup from "../pages/DepartmentLookup";
 import StoriesPage from "../pages/StoriesPage";
 import StoryDetail from "../pages/StoryDetail";
+import AllStoriesPage from "../pages/AllStoriesPage";
 
 const AppRoutes: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/department-lookup" element={<DepartmentLookup />} />
             <Route path="/news" element={<StoriesPage />} />
+            <Route path="/all-stories" element={<AllStoriesPage />} />
             <Route path="/story/:id" element={<StoryDetail />} />
         </Routes>
     );
