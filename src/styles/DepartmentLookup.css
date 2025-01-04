@@ -1,0 +1,183 @@
+/* General Styling for the Department Lookup Page */
+.department-lookup {
+  padding: 20px;
+  font-family: "Inter", sans-serif; /* Consistent font */
+  color: #ffffff;
+  background-color: #000000; /* Match site theme */
+  text-align: center;
+  min-height: 100vh; /* Ensure the page takes full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Push content to the top */
+  align-items: center; /* Center horizontally */
+}
+
+/* Header Styling */
+.department-lookup h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #ff4500; /* Highlight the header */
+}
+
+/* Standardized Container Styling */
+.department-lookup .standard-container {
+  margin: 20px auto;
+  width: 80%; /* Consistent width (80% of the viewport) */
+  max-width: 1200px; /* Limit max width */
+  min-height: 300px; /* Ensure containers are not smushed */
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form Container */
+.department-lookup .form-container {
+  width: 70%; /* Match other containers */
+  max-width: 1200px;
+  min-height: 300px;
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form Styling */
+.department-lookup .lookup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%; /* Full width of the container */
+  max-width: 600px; /* Limit form width */
+}
+
+.department-lookup .form-group label {
+  font-size: 1.2rem;
+  color: #c9d1d9;
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.department-lookup .form-group input,
+.department-lookup .form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e2e2e;
+  color: #ffffff;
+}
+
+.department-lookup .form-group input::placeholder {
+  color: #a1a1a1;
+}
+
+.department-lookup .btn-primary {
+  background-color: #ff4500;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.department-lookup .btn-primary:hover {
+  background-color: #e63900;
+}
+
+/* Alerts */
+.department-lookup .alert {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.department-lookup .alert-danger {
+  background-color: #ff3333;
+  color: #ffffff;
+}
+
+/* Card Styling */
+.department-lookup .card {
+  margin: 20px auto;
+  width: 70%; /* Consistent width */
+  max-width: 1200px; /* Limit max width */
+  min-height: 300px; /* Ensure it matches form container size */
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.department-lookup .card h2,
+.department-lookup .card h3 {
+  color: #ff4500;
+  margin-bottom: 15px;
+}
+
+.department-lookup .card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+.department-lookup .card table th,
+.department-lookup .card table td {
+  text-align: left;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.department-lookup .card table th {
+  background-color: #2e2e2e;
+}
+
+.department-lookup .card table tr:nth-child(odd) {
+  background-color: #2a2a2a;
+}
+
+/* Chart and Map Containers */
+.department-lookup .chart-container,
+.department-lookup .map-container {
+  margin: 20px auto;
+  width: 80%; /* Consistent width */
+  max-width: 1200px; /* Limit max width */
+  min-height: 300px; /* Ensure consistent height */
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer Alignment */
+.footer {
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+.chart-department-monthly-chart {
+  width: 70%;
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
