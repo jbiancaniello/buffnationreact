@@ -5,6 +5,17 @@ import "../styles/StoriesPage.css";
 const StoriesPage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
 
+  const formatDate = (date: Date): string => {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   const generateSlug = (headline: string): string => {
     return headline
       .toLowerCase()
@@ -19,6 +30,11 @@ const StoriesPage: React.FC = () => {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
 
     try {
+      if (!apiKey) {
+        console.error("Missing API key");
+        return [];
+      }
+
       const response = await fetch(url);
       const data = await response.json();
 
@@ -42,19 +58,34 @@ const StoriesPage: React.FC = () => {
     }
   };
 
+  const extractImageThumbnailUrl = (link: string | undefined, isMainStory: boolean = false): string | undefined => {
+    if (!link) {
+      return undefined; // Return undefined if the link is undefined or empty
+    }
+    const imageId = link.split("id=")[1];
+    return imageId
+      ? `https://drive.google.com/thumbnail?id=${imageId}&sz=w1024-h768`
+      : undefined; // Return undefined if imageId is not found
+  };
+
   useEffect(() => {
     const fetchStories = async () => {
       const data = await fetchGoogleSheetsData();
+      if (!data || data.length === 0) {
+        console.warn("No stories found");
+        return;
+      }
+
       const formattedStories = data.map((story: any) => ({
         ...story,
         id: generateSlug(story.Headline), // Generate slug here
       }));
-      
-      console.log("Formatted stories with ids:", formattedStories); // Log the stories with ids
-      setStories(formattedStories.slice(0, 5)); // Limit to 5 most recent stories
+
+      // Reverse the order to get the newest stories first
+      setStories(formattedStories.reverse().slice(0, 5));
     };
     fetchStories();
-  }, []);  
+  }, []);
 
   if (stories.length === 0) {
     return <div>Loading stories...</div>;
@@ -65,59 +96,70 @@ const StoriesPage: React.FC = () => {
 
   return (
     <div className="stories-page">
-      <h1>Latest Stories</h1>
+      <h1>Latest Story</h1>
 
       {/* Main Story */}
       <div className="main-story">
-        <img
-          src={mainStory["Link to image"]}
-          alt={mainStory.Headline}
-          className="main-story-image"
-        />
+        {extractImageThumbnailUrl(mainStory["Display Photo"], true) ? (
+          <img
+            src={extractImageThumbnailUrl(mainStory["Display Photo"], true)}
+            alt={mainStory.Headline}
+            className="main-story-image"
+          />
+        ) : null}
         <div className="main-story-content">
           <h2>{mainStory.Headline}</h2>
+          <div className="metadata">
+            <span>{formatDate(new Date(mainStory.Date))}</span> {/* Format the Date */}
+          </div>
           <p>{mainStory["Body Text"]}</p>
           <button
             className="read-more-button"
-            onClick={() => window.location.href = `/story/${generateSlug(mainStory.Headline)}`}
+            onClick={() => (window.location.href = `/story/${generateSlug(mainStory.Headline)}`)}
           >
             Read More
           </button>
         </div>
       </div>
 
-      {/* Other Stories */}
-      <div className="other-stories">
-        {otherStories.map((story) => (
-          <div key={story.id} className="story-card">
-            <img
-              src={story["Link to image"]}
-              alt={story.Headline}
-              className="story-card-image"
-            />
-            <div className="story-card-content">
-              <h3>{story.Headline}</h3>
-              <p>{story["Body Text"]}</p>
-              <button
-                className="read-more-button"
-                onClick={() => window.location.href = `/story/${generateSlug(story.Headline)}`}
-              >
-                Read More
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* See All Stories Button */}
-      <div className="see-all-stories">
-        <button
-          className="see-all-button"
-          onClick={() => (window.location.href = "/all-stories")}
-        >
-          See All Stories
-        </button>
-      </div>
+      {/* Latest News */}
+      <section className="latest-news">
+        <div className="latest-news-header">
+          <h2>Latest News</h2>
+          <a href="/all-stories" className="see-all-link">
+            See all
+          </a>
+        </div>
+        <div className="news-grid">
+          {otherStories.map((story) => {
+            const imageUrl = extractImageThumbnailUrl(story["Display Photo"], false); // Use thumbnail size
+            return (
+              <div key={story.id} className="news-card">
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt={story.Headline}
+                    className="news-card-image"
+                  />
+                ) : null}
+                <div className="news-card-content">
+                  <h3>{story.Headline}</h3>
+                  <div className="metadata">
+                    <span>{formatDate(new Date(story.Date))}</span>
+                  </div>
+                  <p>{story["Body Text"]}</p>
+                  <button
+                    className="read-more-button"
+                    onClick={() => (window.location.href = `/story/${generateSlug(story.Headline)}`)}
+                  >
+                    Read More
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 };

@@ -11,6 +11,7 @@ export interface Story {
   Department: string;
   headlineUrl: string;
   id?: string;
+  "Display Photo"?: string;
 }
 
 export interface Incident {

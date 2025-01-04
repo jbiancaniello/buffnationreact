@@ -15,6 +15,7 @@ const RecentStories: React.FC<Props> = ({ stories }) => {
             <h2>Recent Stories</h2>
             <div className="story-list">
                 {stories.map((story: Story, index: number) => {
+                    console.log(story);
                     const imageId = story["Link to image"].split("id=")[1];
                     const imageUrl = imageId
                         ? `https://drive.google.com/thumbnail?id=${imageId}&sz=w1024-h768`
