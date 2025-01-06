@@ -157,6 +157,11 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
         setMostFiresByDeptData(sortedData);
     };
 
+    const calculateYAxisDomain = (data: { fires: number }[]) => {
+        const max = Math.max(...data.map((d) => d.fires), 0);
+        return [0, max + Math.ceil(max * 0.2)];
+    };
+
     useEffect(() => {
         fetchFiresByBattalion();
         fetchFiresByMonth();
@@ -178,6 +183,7 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
             );
 
             const today = new Date().toISOString().split("T")[0];
+            console.log(today);
             const pastWeek = new Date();
             pastWeek.setDate(pastWeek.getDate() - 7);
 
@@ -194,6 +200,50 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
 
         fetchData();
     }, []);
+
+    const customTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div
+                    style={{
+                        backgroundColor: "#fff",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                    }}
+                >
+                    {/* Render the X value (label) in black */}
+                    <p style={{ color: "#000", margin: 0 }}>{label}</p>
+                    {/* Render the Y value (fires) in the default color */}
+                    <p style={{ color: "#ff0000", margin: 0 }}>{`${payload[0].name}: ${payload[0].value}`}</p>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    const customTooltip2 = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div
+                    style={{
+                        backgroundColor: "#fff",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                    }}
+                >
+                    {/* Render the X value (label) in black */}
+                    <p style={{ color: "#000", margin: 0 }}>{label}</p>
+                    {/* Render the Y value (fires) in the default color */}
+                    <p style={{ color: "#ff0000", margin: 0 }}>{`${payload[0].name}: ${payload[0].value}`}</p>
+
+                    <p style={{ color: "#ff3333", margin: 0 }}>{`${payload[1].name}: ${payload[1].value}`}</p>
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <div className="stats-charts">
@@ -237,10 +287,9 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 </div>
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart data={firesByBattalion}>
-                        <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
+                        <YAxis domain={calculateYAxisDomain(firesByBattalion)}/>
+                        <Tooltip content={customTooltip}/>
                         <Bar
                             dataKey="fires"
                             fill="#ff0000"
@@ -258,10 +307,9 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 <h3>Total Fires by Month</h3>
                 <ResponsiveContainer width="100%" height={500}>
                     <AreaChart data={suffolkFiresByMonth}>
-                        <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
-                        <YAxis />
-                        <Tooltip />
+                        <YAxis/>
+                        <Tooltip content={customTooltip2}/>
                         <Legend 
                             verticalAlign="top" // Position the legend (top, bottom, left, right)
                             align="center" // Align legend items (center, left, right)
@@ -323,10 +371,9 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 </div>
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart data={mostFiresByDeptData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="dept" />
-                        <YAxis />
-                        <Tooltip />
+                        <XAxis dataKey="dept"/>
+                        <YAxis domain={calculateYAxisDomain(mostFiresByDeptData)}/>
+                        <Tooltip content={customTooltip}/>
                         <Bar
                             dataKey="fires"
                             fill="#ff0000"

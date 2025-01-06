@@ -96,7 +96,7 @@ const StoriesPage: React.FC = () => {
 
   return (
     <div className="stories-page">
-      <h1>Latest Story</h1>
+      <h1>Latest News</h1>
 
       {/* Main Story */}
       <div className="main-story">

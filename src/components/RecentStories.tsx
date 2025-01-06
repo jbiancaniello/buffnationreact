@@ -12,7 +12,7 @@ const RecentStories: React.FC<Props> = ({ stories }) => {
 
     return (
         <div className="recent-stories">
-            <h2>Recent Stories</h2>
+            <h2>Recent News</h2>
             <div className="story-list">
                 {stories.map((story: Story, index: number) => {
                     console.log(story);

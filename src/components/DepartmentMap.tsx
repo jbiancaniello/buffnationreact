@@ -43,7 +43,7 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
           const div = L.DomUtil.create("div", "map-control");
           div.innerHTML = `
             <label><input type="checkbox" id="toggleFires" checked /> Fires</label><br />
-            <label><input type="checkbox" id="toggleStories" checked /> Stories</label>
+            <label><input type="checkbox" id="toggleStories" checked /> News</label>
           `;
           div.style.background = "#161b22";
           div.style.padding = "10px";

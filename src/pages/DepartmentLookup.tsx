@@ -6,7 +6,7 @@ import { Incident, Story } from "../types";
 
 const DepartmentLookup: React.FC = () => {
     const [department, setDepartment] = useState<string>("");
-    const [year, setYear] = useState<string>("2024");
+    const [year, setYear] = useState<string>("2025");
     const [departmentData, setDepartmentData] = useState<Record<
         string,
         any

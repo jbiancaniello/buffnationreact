@@ -87,7 +87,7 @@ const AllStoriesPage: React.FC = () => {
 
   return (
     <div className="all-stories-page">
-      <h1>All Stories</h1>
+      <h1>All News</h1>
       <div className="stories-grid">
         {currentStories.map((story) => {
           const imageUrl = extractImageThumbnailUrl(story["Display Photo"]);

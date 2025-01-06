@@ -29,7 +29,7 @@ const Topbar: React.FC = () => {
                     Dashboard
                 </Link>
                 <Link to="/news" className="nav-link">
-                    Stories
+                    News
                 </Link>
                 <Link to="/department-lookup" className="nav-link">
                     Department Search
