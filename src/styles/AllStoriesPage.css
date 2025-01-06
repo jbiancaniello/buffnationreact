@@ -1,4 +1,4 @@
-/* General styling for All Stories Page */
+/* Scoped styling for All Stories Page */
 .all-stories-page {
   padding: 20px;
   font-family: "Inter", sans-serif;
@@ -14,12 +14,9 @@
 }
 
 /* Stories grid layout */
-.stories-grid {
+.all-stories-page .stories-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(300px, 1fr)
-  ); /* Increase min width to make cards wider */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Increase min width for wider cards */
   max-width: 1200px;
   margin: 0 auto;
   gap: 20px;
@@ -27,34 +24,39 @@
 }
 
 /* Story card styling */
-.story-card {
+.all-stories-page .story-card {
   background-color: #1e1e1e;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 15px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.story-card-image {
+.all-stories-page .story-card-image {
   width: 100%;
-  height: 200px; /* Increase height slightly for better proportions */
+  height: 220px; /* Slightly increased height */
   object-fit: cover;
   border-radius: 8px;
 }
 
-.story-card-content {
+/* Content inside story cards */
+.all-stories-page .story-card-content {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.story-card-content h3 {
+.all-stories-page .story-card-content h3 {
   font-size: 1.2rem;
   color: #ffffff;
+  margin: 0;
 }
 
-.story-card-content p {
+.all-stories-page .story-card-content p {
   font-size: 0.9rem;
   color: #d3d3d3;
   display: -webkit-box;
@@ -62,9 +64,10 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 10px 0;
 }
 
-.read-more-button {
+.all-stories-page .read-more-button {
   background-color: #ff4500;
   color: #ffffff;
   border: none;
@@ -76,19 +79,20 @@
   transition: background-color 0.3s ease;
 }
 
-.read-more-button:hover {
+.all-stories-page .read-more-button:hover {
   background-color: #e63900;
 }
 
 /* Pagination styling */
-.pagination {
+.all-stories-page .pagination {
   margin: 20px 0;
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap; /* Allow buttons to wrap if necessary */
 }
 
-.pagination button {
+.all-stories-page .pagination button {
   background-color: #2e2e2e;
   color: #ffffff;
   border: none;
@@ -99,10 +103,28 @@
   transition: background-color 0.3s ease;
 }
 
-.pagination button:hover {
+.all-stories-page .pagination button:hover {
   background-color: #ff4500;
 }
 
-.pagination button.active {
+.all-stories-page .pagination button.active {
   background-color: #ff4500;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+  .all-stories-page .stories-grid {
+    grid-template-columns: 1fr; /* Single column for smaller screens */
+  }
+
+  .all-stories-page .pagination {
+    gap: 5px; /* Reduce gap between buttons */
+    padding: 0 10px; /* Add padding to avoid buttons touching the edges */
+    justify-content: center; /* Ensure buttons are centered */
+  }
+
+  .all-stories-page .pagination button {
+    padding: 8px 12px; /* Reduce button size for smaller screens */
+    font-size: 0.9rem; /* Adjust font size for readability */
+  }
 }

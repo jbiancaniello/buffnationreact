@@ -17,6 +17,13 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
 
   const validMarkers = (marker: L.Marker | null): marker is L.Marker => marker !== null;
 
+  const generateSlug = (headline: string): string => {
+    return headline
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  };
+
   useEffect(() => {
     // Initialize map
     if (!mapRef.current) {
@@ -71,7 +78,7 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
           if (!isNaN(lat) && !isNaN(lng)) {
             return L.marker([lat, lng], { icon: fireIcon }).bindPopup(
               `<strong>${incident.Department}</strong><br>
-               <em>${incident.Address}, ${incident.Town}</em><br>
+               <em>${incident.Address.trim()}</em><br>
                <strong>Division:</strong> ${incident.Battalion || "N/A"}<br>
                <strong>Date:</strong> ${incident["Fire Date"] || "N/A"}`
             );
@@ -89,9 +96,9 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
           if (!isNaN(lat) && !isNaN(lng)) {
             return L.marker([lat, lng], { icon: storyIcon }).bindPopup(
               `<strong>${story.Headline || "No Title"}</strong><br>
-               <em>${story["Location - Street"] || "Unknown Street"}, ${story["Location - Town"] || "Unknown Town"}</em><br>
+               <em>${story["Location - Street"].trim() || "Unknown Street"}</em><br>
                <strong>Date:</strong> ${story.Date || "N/A"}<br>
-               <a href="${story["Link to image"] || "#"}" target="_blank">Read More</a>`
+               <a href="/story/${generateSlug(story.Headline) || "#"}" target="_blank">Read More</a>`
             );
           }
           return null;

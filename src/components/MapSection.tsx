@@ -8,6 +8,7 @@ import newsIconUrl from "../assets/news_marker.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
+
 L.Icon.Default.mergeOptions({
     iconUrl: markerIcon,
     shadowUrl: markerShadow,
@@ -15,9 +16,9 @@ L.Icon.Default.mergeOptions({
 
 interface Story {
     [key: string]: string | undefined;
-    6: string; // Title
     3: string; // Additional Info
     4: string; // Location Info
+    6: string; // Title
     9: string; // URL
     11: string; // Latitude
     12: string; // Longitude
@@ -25,11 +26,12 @@ interface Story {
 
 interface Fire {
     [key: string]: string | undefined;
-    5: string; // Department
-    3: string; // Address
-    4: string; // Town
-    6: string; // Description
     0: string; // Date
+    1: string; // Address
+    3: string; // County
+    4: string; // Battalion
+    5: string; // Department
+    6: string; // Description
     10: string; // Latitude
     11: string; // Longitude
 }
@@ -55,6 +57,13 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
             console.error(`Error fetching data for range ${range}:`, error);
             return [];
         }
+    };
+
+    const generateSlug = (headline: string): string => {
+        return headline
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
     };
 
     const processAndAddMarkers = (
@@ -97,7 +106,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
         }
     
         if (!mapRef.current) {
-            mapRef.current = L.map(mapContainer).setView([40.7128, -74.006], 10);
+            mapRef.current = L.map(mapContainer).setView([40.75072163753773, -72.94043070272603], 10);
     
             L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
@@ -122,7 +131,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
                 fireIconUrl,
                 combinedFireData,
                 (fire) =>
-                    `<strong>${fire[5]}</strong><br>${fire[3]}<br>${fire[4]}, NY<br>${fire[6]}<br>${fire[0]}`,
+                    `<strong>${fire[5]}</strong><br>${fire[3]}<br>${fire[4]}, NY<br>${fire[1]}<br>${fire[0]}`,
                 10, // Latitude index
                 11, // Longitude index
                 0 // Date index for fire incidents
@@ -133,7 +142,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
                 newsIconUrl,
                 newsData,
                 (story) =>
-                    `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="${story[9]}" target="_blank">Read More</a>`,
+                    `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="/story/${generateSlug(story[6])}" target="_blank">Read More</a>`,
                 11, // Latitude index
                 12, // Longitude index
                 2 // Date index for news stories
