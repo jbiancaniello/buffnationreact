@@ -62,9 +62,8 @@ const DepartmentMonthlyChart: React.FC<DepartmentMonthlyChartProps> = ({
             <h3>Monthly Fires</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <AreaChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
-                    <YAxis />
+                    <YAxis allowDecimals={false}/>
                     <Tooltip />
                     <Area
                         type="monotone"

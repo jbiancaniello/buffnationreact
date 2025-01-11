@@ -5,7 +5,6 @@ import {
     AreaChart,
     XAxis,
     YAxis,
-    CartesianGrid,
     Tooltip,
     ResponsiveContainer,
     Area,
@@ -35,6 +34,12 @@ interface MostFiresByDept {
 
 interface StatsChartsProps {
     selectedYear: string;
+}
+
+interface FiresByMonth {
+    month: string;
+    SuffolkFires: number;
+    NassauFires: number;
 }
 
 const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
@@ -162,6 +167,12 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
         return [0, max + Math.ceil(max * 0.2)];
     };
 
+    const calculateTotalFiresForBattalion = () =>
+        firesByBattalion.reduce((sum, item) => sum + item.fires, 0);
+
+    const calculateTotalFiresForDepartment = () =>
+        mostFiresByDeptData.reduce((sum, item) => sum + item.fires, 0);
+
     useEffect(() => {
         fetchFiresByBattalion();
         fetchFiresByMonth();
@@ -182,8 +193,10 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 "'Nassau County Working Fire Total'!A2:A"
             );
 
-            const today = new Date().toISOString().split("T")[0];
-            console.log(today);
+            const day = new Date();
+            const estOffset = day.getTimezoneOffset() + 300; // EST is UTC-5 (300 minutes)
+            day.setMinutes(day.getMinutes() - estOffset);
+            const today = day.toISOString().split("T")[0];
             const pastWeek = new Date();
             pastWeek.setDate(pastWeek.getDate() - 7);
 
@@ -201,6 +214,25 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
         fetchData();
     }, []);
 
+    const AngledXAxisTick = (props: any) => {
+        const { x, y, payload } = props;
+      
+        return (
+          <g transform={`translate(${x},${y})`}>
+            <text
+              x={0}
+              y={20} // Adjusted to position the label below the axis
+              transform="rotate(-45)" // Rotate the text around its origin
+              textAnchor="end" // Align text to the end for better spacing
+              fill="#ffffff" // Ensure text is white
+              fontSize="11px" // Adjust for readability
+            >
+              {payload.value}
+            </text>
+          </g>
+        );
+      };
+      
     const customTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
             return (
@@ -245,6 +277,38 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
         return null;
     };
 
+    const CustomBarShape = (props: any) => {
+        const { x, y, width, height, fill, fillOpacity, stroke, strokeWidth } = props;
+      
+        if (height <= 0) return null; // Skip rendering invalid shapes
+      
+        // Total perimeter of the rectangle
+        const perimeter = 2 * (width + height);
+      
+        // Offset to start the dash pattern at the top-left corner, excluding the bottom border
+        const dashOffset = height;
+      
+        return (
+          <g>
+            {/* Bar rectangle without bottom border */}
+            <path
+              d={`M${x},${y} L${x + width},${y} L${x + width},${y + height} L${x},${y + height} Z`}
+              fill={fill}
+              fillOpacity={fillOpacity}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              vectorEffect="non-scaling-stroke"
+              style={{
+                strokeDasharray: `${width + 2 * height}, ${width}`, // Define dashes to exclude bottom
+                strokeDashoffset: dashOffset, // Start the dash pattern at the top-left corner
+              }}
+            />
+          </g>
+        );
+      };
+      
+      
+
     return (
         <div className="stats-charts">
             {/* Fires Today and This Week */}
@@ -266,6 +330,9 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                     <h3>{`Total Fires by ${
                         selectedCounty === "Suffolk" ? "Division" : "Battalion"
                     }`}</h3>
+                    <p className="chart-total">
+                        Total Fires: {calculateTotalFiresForBattalion()}
+                    </p>
                     <div className="county-toggle">
                         <button
                             className={`toggle-button ${
@@ -286,29 +353,29 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                     </div>
                 </div>
                 <ResponsiveContainer width="100%" height={500}>
-                    <BarChart data={firesByBattalion}>
-                        <XAxis dataKey="name" />
-                        <YAxis domain={calculateYAxisDomain(firesByBattalion)}/>
-                        <Tooltip content={customTooltip}/>
+                    <BarChart data={firesByBattalion} margin={{bottom: 50}}>
+                        <XAxis dataKey="name" interval={0} tick={<AngledXAxisTick />} />
+                        <YAxis domain={calculateYAxisDomain(firesByBattalion)} allowDecimals={false} />
+                        <Tooltip content={customTooltip} />
                         <Bar
                             dataKey="fires"
                             fill="#ff0000"
                             fillOpacity={0.5}
                             stroke="#ff0000"
                             strokeWidth={2}
+                            shape={<CustomBarShape />}
                         />
                     </BarChart>
                 </ResponsiveContainer>
-
             </div>
 
             {/* Fires by Month */}
             <div className="chart fires-by-month">
                 <h3>Total Fires by Month</h3>
                 <ResponsiveContainer width="100%" height={500}>
-                    <AreaChart data={suffolkFiresByMonth}>
-                        <XAxis dataKey="month" />
-                        <YAxis/>
+                    <AreaChart data={suffolkFiresByMonth}  margin={{right: 20, bottom: 75}}>
+                        <XAxis dataKey="month" interval={0} tick={<AngledXAxisTick />} />
+                        <YAxis allowDecimals={false}/>
                         <Tooltip content={customTooltip2}/>
                         <Legend 
                             verticalAlign="top" // Position the legend (top, bottom, left, right)
@@ -350,6 +417,9 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
             <div className="chart most-fires-by-dept">
                 <div className="chart-header">
                     <h3>{`Most Working Fires by Department`}</h3>
+                    <p className="chart-total">
+                        Total Fires: {calculateTotalFiresForDepartment()}
+                    </p>
                     <div className="county-toggle">
                         <button
                             className={`toggle-button ${
@@ -369,17 +439,18 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                         </button>
                     </div>
                 </div>
-                <ResponsiveContainer width="100%" height={500}>
-                    <BarChart data={mostFiresByDeptData}>
-                        <XAxis dataKey="dept"/>
-                        <YAxis domain={calculateYAxisDomain(mostFiresByDeptData)}/>
-                        <Tooltip content={customTooltip}/>
+                <ResponsiveContainer width="100%" height={450}>
+                    <BarChart data={mostFiresByDeptData} margin={{bottom: 110}}>
+                        <XAxis dataKey="dept" interval={0} tick={<AngledXAxisTick />} />
+                        <YAxis domain={calculateYAxisDomain(mostFiresByDeptData)} allowDecimals={false}/>
+                        <Tooltip content={customTooltip} />
                         <Bar
                             dataKey="fires"
                             fill="#ff0000"
                             fillOpacity={0.5}
                             stroke="#ff0000"
                             strokeWidth={2}
+                            shape={<CustomBarShape />}
                         />
                     </BarChart>
                 </ResponsiveContainer>

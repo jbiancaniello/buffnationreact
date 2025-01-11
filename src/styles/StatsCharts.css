@@ -1,8 +1,8 @@
 .stats-charts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 25px;
+  padding: 25px;
   background-color: #000000;
   color: #c9d1d9;
 }
@@ -121,22 +121,38 @@
   align-self: center;
 }
 
+.chart-total {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.x-axis-label {
+  font-size: 12px; /* Slightly smaller labels */
+  fill: #fff;
+  transform: rotate(-45deg); /* Rotate for angled labels */
+  text-anchor: end;
+  dominant-baseline: hanging;
+}
+
 /* Mobile Styling */
 @media (max-width: 768px) {
   .stats-charts {
     grid-template-columns: 1fr; /* Single column grid on mobile */
-    grid-gap: 10px; /* Smaller gap between charts */
-    padding: 0; /* Remove padding around the grid */
+    grid-gap: 15px; /* Smaller gap between charts */
+    padding: 10px; /* Remove padding around the grid */
   }
 
   .chart {
     width: 100%; /* Ensure charts take full width */
     margin: 0; /* Remove any margin around charts */
     padding: 10px; /* Reduce padding for smaller screens */
+    min-height: 500px; /* Adjust height for smaller screens */
   }
 
   .chart h3 {
     font-size: 1.5rem; /* Adjust font size for smaller screens */
+    margin-bottom: 0;
   }
 
   .fires-today-and-week {
@@ -157,5 +173,28 @@
   .divider {
     width: 80%; /* Horizontal divider */
     height: 2px;
+  }
+
+  .chart-header {
+    flex-direction: column; /* Stack items in a column */
+    align-items: center; /* Center-align items */
+    gap: 10px; /* Add spacing between elements */
+  }
+
+  .chart-total {
+      font-size: 1rem; /* Slightly reduce total fires font size */
+      text-align: center; /* Center the text */
+  }
+
+  .county-toggle {
+      flex-direction: row; /* Keep buttons in a row */
+      justify-content: center;
+      gap: 10px; /* Add spacing between buttons */
+  }
+
+  .x-axis-label {
+    font-size: 10px; /* Slightly smaller labels for mobile */
+    transform: rotate(-30deg); /* Reduce rotation for better legibility */
+    text-anchor: end;
   }
 }
