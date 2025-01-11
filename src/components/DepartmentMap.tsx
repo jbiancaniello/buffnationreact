@@ -98,7 +98,7 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
               `<strong>${story.Headline || "No Title"}</strong><br>
                <em>${story["Location - Street"].trim() || "Unknown Street"}</em><br>
                <strong>Date:</strong> ${story.Date || "N/A"}<br>
-               <a href="/story/${generateSlug(story.Headline) || "#"}" target="_blank">Read More</a>`
+               <a href="/story/${generateSlug(story.Headline) || "#"}">Read More</a>`
             );
           }
           return null;

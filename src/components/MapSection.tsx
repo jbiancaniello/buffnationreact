@@ -142,7 +142,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
                 newsIconUrl,
                 newsData,
                 (story) =>
-                    `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="/story/${generateSlug(story[6])}" target="_blank">Read More</a>`,
+                    `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="/story/${generateSlug(story[6])}">Read More</a>`,
                 11, // Latitude index
                 12, // Longitude index
                 2 // Date index for news stories
