@@ -2,9 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-import fireIconUrl from "../assets/fire_marker.png";
-import newsIconUrl from "../assets/news_marker.png";
-
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -128,7 +125,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
     
             const fireLayerGroup = processAndAddMarkers(
                 mapRef.current,
-                fireIconUrl,
+                `${process.env.PUBLIC_URL}/assets/fire_marker.png`,
                 combinedFireData,
                 (fire) =>
                     `<strong>${fire[5]}</strong><br>${fire[3]}<br>${fire[4]}, NY<br>${fire[1]}<br>${fire[0]}`,
@@ -139,7 +136,7 @@ const MapSection: React.FC<MapSectionProps> = ({ selectedYear }) => {
     
             const newsLayerGroup = processAndAddMarkers(
                 mapRef.current,
-                newsIconUrl,
+                `${process.env.PUBLIC_URL}/assets/news_marker.png`,
                 newsData,
                 (story) =>
                     `<strong>${story[6]}</strong><br>${story[3]}<br>${story[4]}<br><a href="/story/${generateSlug(story[6])}">Read More</a>`,

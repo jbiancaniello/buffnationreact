@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import fireIconUrl from "../assets/fire_marker.png";
-import newsIconUrl from "../assets/news_marker.png";
 import { Incident, Story } from "../types";
 
 interface DepartmentMapProps {
@@ -67,8 +65,8 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
       });
   
     // Initialize fireIcon and storyIcon BEFORE using them
-    const fireIcon = createIcon(fireIconUrl);
-    const storyIcon = createIcon(newsIconUrl);
+    const fireIcon = createIcon(`${process.env.PUBLIC_URL}/assets/fire_marker.png`);
+    const storyIcon = createIcon(`${process.env.PUBLIC_URL}/assets/news_marker.png`);
   
     fireLayerRef.current = L.layerGroup(
       incidents
