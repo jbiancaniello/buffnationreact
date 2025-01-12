@@ -11,6 +11,12 @@ import {
     Legend,
 } from "recharts";
 import "../styles/StatsCharts.css";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface FiresTodayWeek {
     name: string;
@@ -182,7 +188,7 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
     useEffect(() => {
         const fetchData = async () => {
             const suffolkSheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
-            const nassauSheetId = "1c0ZiOjzHAkhaEgucExY0logR9P7S6cRbaxtVz4MC2jY";
+            const nassauSheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
 
             const suffolkFires = await fetchGoogleSheetsData(
                 suffolkSheetId,
@@ -193,18 +199,19 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 "'Nassau County Working Fire Total'!A2:A"
             );
 
-            const day = new Date();
-            const estOffset = day.getTimezoneOffset() + 300; // EST is UTC-5 (300 minutes)
-            day.setMinutes(day.getMinutes() - estOffset);
-            const today = day.toISOString().split("T")[0];
-            const pastWeek = new Date();
-            pastWeek.setDate(pastWeek.getDate() - 7);
+            const now = dayjs().tz("America/New_York");
+            const today = now.format("MM/DD/YYYY");
+            const pastWeek = now.subtract(7, "days");
+            console.log(suffolkFires);
+            console.log(nassauFires);
+            console.log(today);
 
             const firesTodayCount = [...suffolkFires, ...nassauFires].filter(
-                (fire) => fire[0] === today
+                (fire) => dayjs(fire[0]).tz("America/New_York").isSame(today, "day")
             ).length;
+    
             const firesThisWeekCount = [...suffolkFires, ...nassauFires].filter(
-                (fire) => new Date(fire[0]) >= pastWeek
+                (fire) => dayjs(fire[0]).tz("America/New_York").isAfter(pastWeek)
             ).length;
 
             setFiresToday(firesTodayCount);
