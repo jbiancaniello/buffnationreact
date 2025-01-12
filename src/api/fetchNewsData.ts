@@ -35,9 +35,7 @@ export const fetchNewsData = async (): Promise<Story[]> => {
 
       return {
         Headline: headline,
-        "Link to image": row[10]
-          ? `https://drive.google.com/thumbnail?id=${row[10].split("id=")[1]}&sz=w1024-h768`
-          : "",
+        "Link to image": row[10],
         "Body Text": row[8] || "",
         photoGallery: row[9] || "",
         Date: !isNaN(parsedDate.getTime()) ? parsedDate : new Date(),

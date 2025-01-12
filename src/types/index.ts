@@ -12,6 +12,8 @@ export interface Story {
   headlineUrl: string;
   id?: string;
   "Display Photo"?: string;
+  "Photo Key"?: string; // Key in S3
+  photoUrl?: string | null;    // URL fetched from S3
 }
 
 export interface Incident {

@@ -58,33 +58,30 @@ const StoriesPage: React.FC = () => {
     }
   };
 
-  const extractImageThumbnailUrl = (link: string | undefined, isMainStory: boolean = false): string | undefined => {
-    if (!link) {
-      return undefined; // Return undefined if the link is undefined or empty
+  const fetchStoriesWithPhotos = async () => {
+    const data = await fetchGoogleSheetsData();
+    if (!data || data.length === 0) {
+      console.warn("No stories found");
+      return;
     }
-    const imageId = link.split("id=")[1];
-    return imageId
-      ? `https://drive.google.com/thumbnail?id=${imageId}&sz=w1024-h768`
-      : undefined; // Return undefined if imageId is not found
+
+    const storiesWithPhotos = data.map((story) => {
+      // Use Display Photo column to fetch the S3 URL directly
+      const photoUrl = story["Display Photo"] 
+        ? story["Display Photo"].trim() 
+        : null;
+
+      return {
+        ...story,
+        photoUrl, // Assign photo URL directly
+      };
+    });
+
+    setStories(storiesWithPhotos.reverse().slice(0, 5)); // Display latest 5 stories
   };
 
   useEffect(() => {
-    const fetchStories = async () => {
-      const data = await fetchGoogleSheetsData();
-      if (!data || data.length === 0) {
-        console.warn("No stories found");
-        return;
-      }
-
-      const formattedStories = data.map((story: any) => ({
-        ...story,
-        id: generateSlug(story.Headline), // Generate slug here
-      }));
-
-      // Reverse the order to get the newest stories first
-      setStories(formattedStories.reverse().slice(0, 5));
-    };
-    fetchStories();
+    fetchStoriesWithPhotos();
   }, []);
 
   if (stories.length === 0) {
@@ -100,9 +97,9 @@ const StoriesPage: React.FC = () => {
 
       {/* Main Story */}
       <div className="main-story">
-        {extractImageThumbnailUrl(mainStory["Display Photo"], true) ? (
+        {mainStory.photoUrl ? (
           <img
-            src={extractImageThumbnailUrl(mainStory["Display Photo"], true)}
+            src={mainStory.photoUrl}
             alt={mainStory.Headline}
             className="main-story-image"
           />
@@ -110,7 +107,7 @@ const StoriesPage: React.FC = () => {
         <div className="main-story-content">
           <h2>{mainStory.Headline}</h2>
           <div className="metadata">
-            <span>{formatDate(new Date(mainStory.Date))}</span> {/* Format the Date */}
+            <span>{formatDate(new Date(mainStory.Date))}</span>
           </div>
           <p>{mainStory["Body Text"]}</p>
           <button
@@ -131,33 +128,30 @@ const StoriesPage: React.FC = () => {
           </a>
         </div>
         <div className="news-grid">
-          {otherStories.map((story) => {
-            const imageUrl = extractImageThumbnailUrl(story["Display Photo"], false); // Use thumbnail size
-            return (
-              <div key={story.id} className="news-card">
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={story.Headline}
-                    className="news-card-image"
-                  />
-                ) : null}
-                <div className="news-card-content">
-                  <h3>{story.Headline}</h3>
-                  <div className="metadata">
-                    <span>{formatDate(new Date(story.Date))}</span>
-                  </div>
-                  <p>{story["Body Text"]}</p>
-                  <button
-                    className="read-more-button"
-                    onClick={() => (window.location.href = `/story/${generateSlug(story.Headline)}`)}
-                  >
-                    Read More
-                  </button>
+          {otherStories.map((story) => (
+            <div key={story.id} className="news-card">
+              {story.photoUrl ? (
+                <img
+                  src={story.photoUrl}
+                  alt={story.Headline}
+                  className="news-card-image"
+                />
+              ) : null}
+              <div className="news-card-content">
+                <h3>{story.Headline}</h3>
+                <div className="metadata">
+                  <span>{formatDate(new Date(story.Date))}</span>
                 </div>
+                <p>{story["Body Text"]}</p>
+                <button
+                  className="read-more-button"
+                  onClick={() => (window.location.href = `/story/${generateSlug(story.Headline)}`)}
+                >
+                  Read More
+                </button>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </section>
     </div>

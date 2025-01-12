@@ -4,6 +4,7 @@ import "../styles/AllStoriesPage.css";
 
 const AllStoriesPage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
+  const [preloadedImages, setPreloadedImages] = useState<Record<string, string>>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const storiesPerPage = 9;
   const [error, setError] = useState<string | null>(null);
@@ -39,14 +40,16 @@ const AllStoriesPage: React.FC = () => {
     }
   };
 
-  const extractImageThumbnailUrl = (link: string | undefined): string | undefined => {
-    if (!link) {
-      return undefined;
-    }
-    const imageId = link.split("id=")[1];
-    return imageId
-      ? `https://drive.google.com/thumbnail?id=${imageId}&sz=w1024-h768`
-      : undefined;
+  const preloadImages = (stories: Story[]) => {
+    const newPreloadedImages: Record<string, string> = {};
+    stories.forEach((story) => {
+      if (story.id && story["Display Photo"]) {
+        const img = new Image();
+        img.src = story["Display Photo"]; // Preload the image
+        newPreloadedImages[story.id] = img.src;
+      }
+    });
+    setPreloadedImages((prev) => ({ ...prev, ...newPreloadedImages }));
   };
 
   const formatDate = (date: Date): string => {
@@ -70,6 +73,7 @@ const AllStoriesPage: React.FC = () => {
   useEffect(() => {
     const fetchStories = async () => {
       const data = await fetchGoogleSheetsData("NewsStory");
+      preloadImages(data); // Preload images
       setStories(data.reverse()); // Reverse for newest first
     };
     fetchStories();
@@ -89,10 +93,11 @@ const AllStoriesPage: React.FC = () => {
     <div className="all-stories-page">
       <h1>All News</h1>
       <div className="stories-grid">
-        {currentStories.map((story) => {
-          const imageUrl = extractImageThumbnailUrl(story["Display Photo"]);
+        {currentStories.map((story, index) => {
+          const imageUrl =
+            (story.id ? preloadedImages[story.id] : undefined) || story["Display Photo"];
           return (
-            <div key={story.id} className="story-card">
+            <div key={story.id || index} className="story-card">
               {imageUrl && (
                 <img
                   src={imageUrl}
@@ -109,9 +114,7 @@ const AllStoriesPage: React.FC = () => {
                 <button
                   className="read-more-button"
                   onClick={() =>
-                    (window.location.href = `/story/${generateSlug(
-                      story.Headline
-                    )}`)
+                    (window.location.href = `/story/${generateSlug(story.Headline)}`)
                   }
                 >
                   Read More

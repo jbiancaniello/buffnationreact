@@ -14,14 +14,26 @@ const LandingPage: React.FC = () => {
     useEffect(() => {
         // Fetch recent incidents
         const fetchIncidents = async () => {
-            const incidents = await fetchRecentIncidents();
-            setRecentIncidents(incidents);
+            try {
+                const incidents = await fetchRecentIncidents();
+                setRecentIncidents(incidents);
+            } catch (error) {
+                console.error("Error fetching recent incidents:", error);
+            }
         };
 
         // Fetch recent stories
         const fetchStories = async () => {
-            const stories = await fetchNewsData();
-            setRecentStories(stories);
+            try {
+                const stories = await fetchNewsData();
+                const storiesWithPhotos = stories.map((story) => ({
+                    ...story,
+                    photoUrl: story["Link to image"], // Ensure this column contains the S3 URL
+                }));
+                setRecentStories(storiesWithPhotos);
+            } catch (error) {
+                console.error("Error fetching recent stories:", error);
+            }
         };
 
         fetchIncidents();
