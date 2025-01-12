@@ -65,8 +65,8 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
       });
   
     // Initialize fireIcon and storyIcon BEFORE using them
-    const fireIcon = createIcon(`${process.env.PUBLIC_URL}/assets/fire_marker.png`);
-    const storyIcon = createIcon(`${process.env.PUBLIC_URL}/assets/news_marker.png`);
+    const fireIcon = createIcon(`https://storyphotos.s3.us-east-1.amazonaws.com/fire_marker.png`);
+    const storyIcon = createIcon(`https://storyphotos.s3.us-east-1.amazonaws.com/news_marker.png`);
   
     fireLayerRef.current = L.layerGroup(
       incidents

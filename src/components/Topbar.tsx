@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Topbar.css";
-import logo from "../../public/assets/logo.png"; // Import your logo file
 
 const Topbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -13,7 +12,7 @@ const Topbar: React.FC = () => {
     return (
         <div className="topbar">
             <div className="topbar-left">
-            <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="Logo" className="logo-image"/>
+            <img src={`https://storyphotos.s3.us-east-1.amazonaws.com/logo.png`} alt="Logo" className="logo-image"/>
                 <h1 className="logo">Buff Nation</h1>
                 <button
                     className={`menu-toggle ${menuOpen ? "open" : ""}`}
