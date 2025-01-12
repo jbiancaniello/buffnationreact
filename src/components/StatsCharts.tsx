@@ -61,6 +61,7 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
         "Suffolk"
     );
     const [mostFiresByDeptData, setMostFiresByDeptData] = useState<MostFiresByDept[]>([]);
+    const [allDeptData, setAllDeptData] = useState<FiresByBattalion[]>([]);
 
     const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -107,6 +108,38 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
     
         setFiresByBattalion(sortedData);
     };    
+
+    const fetchAllDeptData = async () => {
+        const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
+        const range =
+            selectedDeptCounty === "Suffolk"
+                ? "'Suffolk Divisions'!A2:C"
+                : "'Nassau Battalion'!A2:C";
+    
+        const data = await fetchGoogleSheetsData(sheetId, range);
+    
+        // Convert year to string for safe comparison
+        const filteredData = data.filter(
+            ([, year]: [string, string, string]) => year.toString() === selectedYear
+        );
+    
+        const order =
+            selectedDeptCounty === "Suffolk"
+                ? ["1st Division", "2nd Division", "3rd Division", "4th Division", "5th Division", "6th Division", "7th Division", "8th Division", "9th Division", "10th Division"]
+                : ["1st Battalion", "2nd Battalion", "3rd Battalion", "4th Battalion", "5th Battalion", "6th Battalion", "7th Battalion", "8th Battalion", "9th Battalion"];
+    
+        const sortedData = order.map((name) => {
+            const matchingEntry = filteredData.find(
+                ([entryName]: [string, string, string]) => entryName === name
+            );
+            return {
+                name,
+                fires: matchingEntry ? parseInt(matchingEntry[2], 10) : 0,
+            };
+        });
+        console.log(sortedData);
+        setAllDeptData(sortedData);
+    };
 
     const fetchFiresByMonth = async () => {
         const sheetId = "1m1yjSvmhY0HbAePiA8e4td95l9lqOgFoZmlIu8wBTqU";
@@ -176,13 +209,15 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
     const calculateTotalFiresForBattalion = () =>
         firesByBattalion.reduce((sum, item) => sum + item.fires, 0);
 
-    const calculateTotalFiresForDepartment = () =>
-        mostFiresByDeptData.reduce((sum, item) => sum + item.fires, 0);
-
+    const calculateTotalFiresForCounty = () => {
+        return allDeptData.reduce((sum, item) => sum + item.fires, 0);
+    };    
+    
     useEffect(() => {
         fetchFiresByBattalion();
         fetchFiresByMonth();
         fetchMostFiresByDept();
+        fetchAllDeptData();
     }, [selectedCounty, selectedDeptCounty, selectedYear]);
 
     useEffect(() => {
@@ -238,8 +273,8 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
             </text>
           </g>
         );
-      };
-      
+    };
+
     const customTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
             return (
@@ -419,13 +454,11 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                 </ResponsiveContainer>
             </div>
 
-
-            {/* Most Fires by Department */}
             <div className="chart most-fires-by-dept">
                 <div className="chart-header">
                     <h3>{`Most Working Fires by Department`}</h3>
                     <p className="chart-total">
-                        Total Fires: {calculateTotalFiresForDepartment()}
+                        Total Fires: {calculateTotalFiresForCounty()}
                     </p>
                     <div className="county-toggle">
                         <button
@@ -447,9 +480,12 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                     </div>
                 </div>
                 <ResponsiveContainer width="100%" height={450}>
-                    <BarChart data={mostFiresByDeptData} margin={{bottom: 110}}>
+                    <BarChart data={mostFiresByDeptData} margin={{ bottom: 110 }}>
                         <XAxis dataKey="dept" interval={0} tick={<AngledXAxisTick />} />
-                        <YAxis domain={calculateYAxisDomain(mostFiresByDeptData)} allowDecimals={false}/>
+                        <YAxis
+                            domain={calculateYAxisDomain(mostFiresByDeptData)}
+                            allowDecimals={false}
+                        />
                         <Tooltip content={customTooltip} />
                         <Bar
                             dataKey="fires"
@@ -462,6 +498,7 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+
         </div>
     );
 };
