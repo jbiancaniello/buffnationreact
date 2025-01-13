@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import DepartmentMap from "../components/DepartmentMap";
-import DepartmentMonthlyChart from "../components/DepartmentMonthlyChart";
+import React, { useState, Suspense } from "react";
 import "../styles/DepartmentLookup.css";
 import { Incident, Story } from "../types";
+
+const DepartmentMonthlyChart = React.lazy(() => import("../components/DepartmentMonthlyChart"));
+const DepartmentMap = React.lazy(() => import("../components/DepartmentMap"));
 
 const DepartmentLookup: React.FC = () => {
     const [department, setDepartment] = useState<string>("");
@@ -279,12 +280,13 @@ const DepartmentLookup: React.FC = () => {
                                     </tbody>
                                 </table>
                             </div>
-
-                            <DepartmentMonthlyChart incidents={incidents} />
-                            <DepartmentMap
-                                incidents={incidents}
-                                stories={deptStories}
-                            />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <DepartmentMonthlyChart incidents={incidents} />
+                                <DepartmentMap
+                                    incidents={incidents}
+                                    stories={deptStories}
+                                />
+                            </Suspense>
                         </>
                     )}
                 </>

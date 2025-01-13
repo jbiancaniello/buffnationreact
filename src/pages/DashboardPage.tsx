@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import StatsCharts from "../components/StatsCharts";
-import MapSection from "../components/MapSection";
+import React, { useState, Suspense } from "react";
 import "../styles/Dashboard.css";
+
+const StatsCharts = React.lazy(() => import("../components/StatsCharts"));
+const MapSection = React.lazy(() => import("../components/MapSection"));
 
 const DashboardPage: React.FC = () => {
     const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
@@ -26,8 +27,10 @@ const DashboardPage: React.FC = () => {
             </div>
             </header>
             <main>
-                <StatsCharts selectedYear={selectedYear} />
-                <MapSection selectedYear={selectedYear} />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <StatsCharts selectedYear={selectedYear} />
+                    <MapSection selectedYear={selectedYear} />
+                </Suspense>
             </main>
         </div>
     );
