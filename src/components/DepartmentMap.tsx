@@ -33,13 +33,13 @@ const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => 
 
         // Add icons for markers
         const fireIcon = L.icon({
-          iconUrl: "https://cdn.example.com/assets/fire_marker.png", // Replace with your CDN URL
+          iconUrl: "https://storyphotos.s3.us-east-1.amazonaws.com/fire_marker.png", // Replace with your CDN URL
           iconSize: [32, 32],
           iconAnchor: [16, 32],
         });
 
         const storyIcon = L.icon({
-          iconUrl: "https://cdn.example.com/assets/news_marker.png", // Replace with your CDN URL
+          iconUrl: "https://storyphotos.s3.us-east-1.amazonaws.com/news_marker.png", // Replace with your CDN URL
           iconSize: [32, 32],
           iconAnchor: [16, 32],
         });
