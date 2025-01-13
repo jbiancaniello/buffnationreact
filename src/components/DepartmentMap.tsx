@@ -7,7 +7,7 @@ interface DepartmentMapProps {
 }
 
 const DepartmentMap: React.FC<DepartmentMapProps> = ({ incidents, stories }) => {
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<any>(null);// comment to force redeploy
 
   useEffect(() => {
     let L: any;
