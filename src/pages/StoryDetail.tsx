@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Story } from "../types";
 import "../styles/StoryDetail.css";
 
@@ -11,9 +12,7 @@ const StoryDetailsPage: React.FC = () => {
   const apiKey = process.env.REACT_APP_API_KEY as string;
   const storySpreadsheetId = "1c0ZiOjzHAkhaEgucExY0logR9P7S6cRbaxtVz4MC2jY";
 
-  const fetchGoogleSheetsData = async (
-    sheetName: string
-  ): Promise<Story[]> => {
+  const fetchGoogleSheetsData = async (sheetName: string): Promise<Story[]> => {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${storySpreadsheetId}/values/${sheetName}?key=${apiKey}`;
     try {
       const response = await fetch(url);
@@ -44,11 +43,7 @@ const StoryDetailsPage: React.FC = () => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       return "Invalid date";
     }
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return date.toISOString(); // ISO format for structured data
   };
 
   const generateSlug = (headline: string): string => {
@@ -89,41 +84,89 @@ const StoryDetailsPage: React.FC = () => {
     return <div>Loading story...</div>;
   }
 
-  const imageUrl = story["Display Photo"]; // Assuming this contains the S3 URL
+  const imageUrl = story["Display Photo"];
   const linkToImage = story["Link to image"];
+  const publishedDate = formatDate(story.Date);
+
+  // Define JSON-LD structured data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": story.Headline,
+    "image": imageUrl || "https://example.com/default-image.jpg",
+    "datePublished": publishedDate,
+    "author": {
+      "@type": "Person",
+      "name": "Your Website Name", // Replace with the actual author or site name
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Your Website Name",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://example.com/logo.jpg", // Replace with your website logo
+      },
+    },
+    "description": story["Body Text"].substring(0, 150),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": window.location.href,
+    },
+  };
 
   return (
-    <div className="story-details-page">
-      <h1>{story.Headline}</h1>
-      {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={story.Headline}
-          className="story-image"
-        />
-      ) : (
-        <p>No image available</p>
-      )}
-      <div className="story-content">
-        <p>
-          <strong>Date:</strong> {formatDate(story.Date)}
-        </p>
-        <p>
-          <strong>Location:</strong> {story["Location - Street"]},{" "}
-          {story["Location - Town"]}
-        </p>
-        <p>{story["Body Text"]}</p>
+    <HelmetProvider>
+      <div className="story-details-page">
+        {/* Helmet for dynamic meta tags and JSON-LD */}
+        <Helmet>
+          <title>{story.Headline} - Latest News</title>
+          <meta name="description" content={story["Body Text"].substring(0, 150)} />
+          <meta property="og:title" content={story.Headline} />
+          <meta
+            property="og:description"
+            content={story["Body Text"].substring(0, 150)}
+          />
+          <meta
+            property="og:image"
+            content={imageUrl || "https://example.com/default-image.jpg"}
+          />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={window.location.href} />
+
+          {/* Add JSON-LD structured data */}
+          <script type="application/ld+json">
+            {JSON.stringify(structuredData)}
+          </script>
+        </Helmet>
+
+        <h1>{story.Headline}</h1>
+        {imageUrl ? (
+          <img src={imageUrl} alt={story.Headline} className="story-image" />
+        ) : (
+          <p>No image available</p>
+        )}
+        <div className="story-content">
+          <p>
+            <strong>Date:</strong> {new Date(story.Date).toLocaleDateString()}
+          </p>
+          <p>
+            <strong>Location:</strong> {story["Location - Street"]},{" "}
+            {story["Location - Town"]}
+          </p>
+          <p>{story["Body Text"]}</p>
+        </div>
+        {linkToImage && (
+          <a
+            href={linkToImage}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="view-image-button"
+          >
+            View More Photos
+          </a>
+        )}
       </div>
-      {linkToImage && (
-        <a
-          href={linkToImage}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="view-image-button">
-          View More Photos
-        </a>
-      )}
-    </div>
+    </HelmetProvider>
   );
 };
 
