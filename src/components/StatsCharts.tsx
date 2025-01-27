@@ -236,18 +236,24 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
 
             const now = dayjs().tz("America/New_York");
             const today = now.format("MM/DD/YYYY");
-            const pastWeek = now.subtract(7, "days");
-            console.log(suffolkFires);
-            console.log(nassauFires);
-            console.log(today);
+            const startOfWeek = now.startOf("week"); // Sunday at 00:00
+            const endOfWeek = now.endOf("week"); // Saturday at 23:59
+
+            console.log(`Week Start: ${startOfWeek.format("MM/DD/YYYY")}`);
+            console.log(`Week End: ${endOfWeek.format("MM/DD/YYYY")}`);
 
             const firesTodayCount = [...suffolkFires, ...nassauFires].filter(
                 (fire) => dayjs(fire[0]).tz("America/New_York").isSame(today, "day")
             ).length;
     
-            const firesThisWeekCount = [...suffolkFires, ...nassauFires].filter(
-                (fire) => dayjs(fire[0]).tz("America/New_York").isAfter(pastWeek)
-            ).length;
+            const firesThisWeekCount = [...suffolkFires, ...nassauFires].filter((fire) => {
+                const fireDate = dayjs(fire[0]).tz("America/New_York");
+                return (
+                    fireDate.isSame(startOfWeek, "day") || // Check if it's the start of the week
+                    fireDate.isSame(endOfWeek, "day") || // Check if it's the end of the week
+                    (fireDate.isAfter(startOfWeek, "day") && fireDate.isBefore(endOfWeek, "day")) // Check if it's in between
+                );
+            }).length;
 
             setFiresToday(firesTodayCount);
             setFiresThisWeek(firesThisWeekCount);
