@@ -48,6 +48,23 @@
   object-fit: cover; /* Ensure the image fills its container without distortion */
 }
 
+/* Read More Button */
+.recent-stories .read-more-button-2 {
+  background-color: #ff4500;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.recent-stories .read-more-button-2:hover {
+  background-color: #e63900; /* Darker blue on hover */
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   /* Stack story content side by side like desktop */

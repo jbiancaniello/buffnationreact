@@ -74,7 +74,7 @@
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  align-self: flex-start;
+  align-self: center;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }

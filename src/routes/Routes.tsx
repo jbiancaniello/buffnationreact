@@ -1,26 +1,22 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-
-// Lazy load all the pages
-const LandingPage = React.lazy(() => import("../pages/LandingPage"));
-const DashboardPage = React.lazy(() => import("../pages/DashboardPage"));
-const DepartmentLookup = React.lazy(() => import("../pages/DepartmentLookup"));
-const StoriesPage = React.lazy(() => import("../pages/StoriesPage"));
-const StoryDetail = React.lazy(() => import("../pages/StoryDetail"));
-const AllStoriesPage = React.lazy(() => import("../pages/AllStoriesPage"));
+import LandingPage from "../pages/LandingPage";
+import DashboardPage from "../pages/DashboardPage";
+import DepartmentLookup from "../pages/DepartmentLookup";
+import StoriesPage from "../pages/StoriesPage";
+import AllStoriesPage from "../pages/AllStoriesPage";
+import StoryDetail from "../pages/StoryDetail";
 
 const AppRoutes: React.FC = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/department-lookup" element={<DepartmentLookup />} />
-                <Route path="/news" element={<StoriesPage />} />
-                <Route path="/all-stories" element={<AllStoriesPage />} />
-                <Route path="/story/:id" element={<StoryDetail />} />
-            </Routes>
-        </Suspense>
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/department-lookup" element={<DepartmentLookup />} />
+            <Route path="/news" element={<StoriesPage />} />
+            <Route path="/all-stories" element={<AllStoriesPage />} />
+            <Route path="/story/:id" element={<StoryDetail />} />
+        </Routes>
     );
 };
 

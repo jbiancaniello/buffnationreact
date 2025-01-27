@@ -23,7 +23,7 @@ const RecentStories: React.FC<Props> = ({ stories }) => {
                             <div className="story-content">
                                 <h3 className="story-title">{story.Headline}</h3>
                                 <button
-                                    className="read-more-button"
+                                    className="read-more-button-2"
                                     onClick={() => navigate(story.headlineUrl)} // Navigate to headlineUrl
                                 >
                                     Read More
