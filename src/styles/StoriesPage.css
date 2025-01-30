@@ -1,3 +1,4 @@
+/* Stories Page Container */
 .stories-page {
   padding: 20px;
   font-family: "Inter", sans-serif;
@@ -6,7 +7,42 @@
   text-align: center;
 }
 
-/* Main Story Section */
+/* 🔥 Breaking News Ticker - Immediate Start */
+.breaking-news-container {
+  width: 100%;
+  background-color: red;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.4rem; /* Larger text for readability */
+  font-weight: bold;
+  padding: 18px 0; /* Keeps banner tall */
+  position: relative;
+}
+
+.breaking-news-ticker {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 50%; /* 🔥 Starts closer to the screen */
+  animation: ticker-scroll 45s ease-out infinite; /* 🔥 Smooth acceleration */
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 40px; /* Spacing between incidents */
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0%); /* 🔥 Start closer to the screen */
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+/* 📌 Main Story Section */
 .main-story {
   display: flex;
   justify-content: center;
@@ -72,7 +108,7 @@
   background-color: #e63900;
 }
 
-/* Latest News Section */
+/* 📰 Latest News Section */
 .latest-news {
   margin-bottom: 40px;
 }
@@ -102,7 +138,7 @@
   text-decoration: underline;
 }
 
-/* Adjusting Grid Layout for Cards */
+/* 🎯 Adjusting Grid Layout for Cards */
 .news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -110,7 +146,7 @@
   padding: 0 20px;
 }
 
-/* Adjusting the News Card Layout */
+/* 🏷️ News Card */
 .news-card {
   background-color: #1e1e1e;
   border-radius: 10px;
@@ -132,7 +168,7 @@
   padding: 10px; /* Add padding around the image */
 }
 
-/* Content inside story cards */
+/* 📌 Content inside story cards */
 .news-card-content {
   display: flex;
   flex-direction: column;
@@ -140,14 +176,14 @@
   flex-grow: 1;
 }
 
-/* Title Styling */
+/* 🏷️ Title Styling */
 .news-card-content h3 {
   font-size: 1.2rem;
   margin: 0 0 5px 0;
   color: #ffffff;
 }
 
-/* Paragraph Styling */
+/* 📄 Paragraph Styling */
 .news-card-content p {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -158,7 +194,7 @@
   color: #d3d3d3;
 }
 
-/* Read More Button */
+/* 📌 Read More Button */
 .read-more-button {
   background-color: #ff4500;
   color: white;
@@ -177,7 +213,7 @@
   background-color: #ff5722;
 }
 
-/* Mobile Styling */
+/* 📱 Mobile Styling */
 @media (max-width: 768px) {
   .main-story {
     flex-direction: column;

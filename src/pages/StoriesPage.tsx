@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Story } from "../types";
+import { Story, Incident } from "../types";
+import { fetchRecentIncidents } from "../api/fetchRecentIncidents"; // ✅ Import the function
 import "../styles/StoriesPage.css";
 
 const StoriesPage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
+  const [incidents, setIncidents] = useState<Incident[]>([]);
 
   const formatDate = (date: Date): string => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
@@ -66,22 +68,36 @@ const StoriesPage: React.FC = () => {
     }
 
     const storiesWithPhotos = data.map((story) => {
-      // Use Display Photo column to fetch the S3 URL directly
-      const photoUrl = story["Display Photo"] 
-        ? story["Display Photo"].trim() 
-        : null;
-
-      return {
-        ...story,
-        photoUrl, // Assign photo URL directly
-      };
+      const photoUrl = story["Display Photo"] ? story["Display Photo"].trim() : null;
+      return { ...story, photoUrl };
     });
 
-    setStories(storiesWithPhotos.reverse().slice(0, 5)); // Display latest 5 stories
+    setStories(storiesWithPhotos.reverse().slice(0, 5)); // Show latest 5 stories
+  };
+
+  const BreakingNewsTicker: React.FC<{ incidents: Incident[] }> = ({ incidents }) => {
+    return (
+      <div className="breaking-news-container">
+        <div className="breaking-news-ticker">
+          {incidents.map((incident, index) => (
+            <span key={index} className="ticker-item">
+              {incident["Fire Date"]} - {incident.Address}, {incident.Department} &nbsp; | &nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   useEffect(() => {
     fetchStoriesWithPhotos();
+
+    const fetchIncidents = async () => {
+      const incidentData = await fetchRecentIncidents(); // ✅ Use the shared method
+      setIncidents(incidentData); // It already returns the latest 5 incidents
+    };
+
+    fetchIncidents();
   }, []);
 
   if (stories.length === 0) {
@@ -93,16 +109,14 @@ const StoriesPage: React.FC = () => {
 
   return (
     <div className="stories-page">
+      <BreakingNewsTicker incidents={incidents} />
+
       <h1>Latest News</h1>
 
       {/* Main Story */}
       <div className="main-story">
         {mainStory.photoUrl ? (
-          <img
-            src={mainStory.photoUrl}
-            alt={mainStory.Headline}
-            className="main-story-image"
-          />
+          <img src={mainStory.photoUrl} alt={mainStory.Headline} className="main-story-image" />
         ) : null}
         <div className="main-story-content">
           <h2>{mainStory.Headline}</h2>
@@ -131,11 +145,7 @@ const StoriesPage: React.FC = () => {
           {otherStories.map((story) => (
             <div key={story.id} className="news-card">
               {story.photoUrl ? (
-                <img
-                  src={story.photoUrl}
-                  alt={story.Headline}
-                  className="news-card-image"
-                />
+                <img src={story.photoUrl} alt={story.Headline} className="news-card-image" />
               ) : null}
               <div className="news-card-content">
                 <h3>{story.Headline}</h3>
