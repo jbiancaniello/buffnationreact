@@ -79,6 +79,7 @@ const StoriesPage: React.FC = () => {
     return (
       <div className="breaking-news-container">
         <div className="breaking-news-ticker">
+          Recent Working Fires: 
           {incidents.map((incident, index) => (
             <span key={index} className="ticker-item">
               {incident["Fire Date"]} - {incident.Address}, {incident.Department} &nbsp; | &nbsp;
