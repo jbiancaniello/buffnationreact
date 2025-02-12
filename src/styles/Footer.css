@@ -1,9 +1,22 @@
 .site-footer {
-    background-color: #000000;
+    background-color: #036;
     color: #c9d1d9;
     text-align: center;
     padding: 20px 10px;
     font-size: 14px;
+}
+
+.site-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.site-footer a:visited {
+    color: white;
+}
+
+.site-footer a:hover {
+    color: #007bff;
 }
 
 .social-media-icons {
@@ -18,7 +31,7 @@
 }
 
 .social-icon:hover {
-    color: #007bff; /* Change to a brighter color on hover */
+    color: #007bff;
 }
 
 .copyright {

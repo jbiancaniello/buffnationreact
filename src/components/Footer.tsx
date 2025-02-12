@@ -19,7 +19,14 @@ const Footer: React.FC = () => {
                     <FaYoutube className="social-icon" />
                 </a>
             </div>
-            <p className="copyright">© Buff Nation 2025</p>
+            <div>
+                <a href="https://nycfirewire.net/" target="_blank" rel="noopener noreferrer">
+                    <p>Proud Partner of Fire Wire</p>
+                </a>
+            </div>
+            <div>
+                <p className="copyright">© Buff Nation 2025</p>
+            </div>
         </footer>
     );
 };

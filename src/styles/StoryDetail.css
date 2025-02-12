@@ -2,8 +2,8 @@
 .story-details-page {
   padding: 20px;
   font-family: "Inter", sans-serif; /* Consistent font */
-  color: #ffffff;
-  background-color: #000000; /* Match site theme */
+  color: #036;
+  background-color: #fff; /* Match site theme */
   min-height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@
 /* Header Styling */
 .story-details-page h1 {
   font-size: 2.5rem;
-  color: #ff4500; /* Highlight the headline */
+  color: #036; /* Highlight the headline */
   margin-bottom: 20px;
 }
 
@@ -26,17 +26,14 @@
   border-radius: 10px;
   margin-bottom: 20px;
   object-fit: cover; /* Ensure the image fits well */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Content Container */
 .story-content {
-  background-color: #1e1e1e; /* Dark background for the content area */
   border-radius: 10px;
   padding: 20px;
   max-width: 800px;
   width: 90%; /* Ensure responsiveness */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   text-align: left; /* Align text to the left inside the content box */
 }
 
@@ -44,11 +41,11 @@
 .story-content p {
   margin: 10px 0;
   font-size: 1rem;
-  color: #c9d1d9; /* Slightly muted text color for readability */
+  color: #036; /* Slightly muted text color for readability */
 }
 
 .story-content strong {
-  color: #ffffff; /* Make strong text stand out */
+  color: #036; /* Make strong text stand out */
 }
 
 /* Button for Viewing Original Image */
@@ -56,7 +53,7 @@
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #ff4500;
+  background-color: #c20017;
   color: #ffffff;
   text-decoration: none;
   font-size: 1.2rem;
@@ -64,10 +61,6 @@
   border-radius: 5px;
   transition: background-color 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.view-image-button:hover {
-  background-color: #e63900;
 }
 
 /* Mobile Styling */

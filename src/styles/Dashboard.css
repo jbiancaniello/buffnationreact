@@ -1,6 +1,6 @@
 .dashboard {
-  background: #000000;
-  color: #ffffff;
+  background: #ffffff;
+  color: #036;
   padding: 20px;
   min-height: 100vh;
 }
@@ -33,9 +33,9 @@
 .year-filter select {
   padding: 5px 10px;
   border-radius: 5px;
-  border: 1px solid #ffffff;
-  background-color: #313131;
-  color: #ffffff;
+  border: 1px solid #c20017;
+  background-color: #ffffff;
+  color: #036;
   font-size: 1rem;
 }
 

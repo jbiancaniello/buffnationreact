@@ -273,7 +273,7 @@ const DepartmentLookup: React.FC = () => {
                                     <tbody>
                                         {incidents.map((incident, index) => (
                                             <tr key={index}>
-                                                <td>{incident["Fire Date"]}</td>
+                                                <th>{incident["Fire Date"]}</th>
                                                 <td>{incident.Address}</td>
                                             </tr>
                                         ))}

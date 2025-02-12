@@ -14,7 +14,7 @@ const DashboardPage: React.FC = () => {
     return (
         <div className="dashboard">
             <header className="dashboard-header">
-            <h1>Dashboard</h1>
+            <h1>Live Data</h1>
             <div className="year-filter">
                 <label htmlFor="year-select">Year:</label>
                 <select id="year-select" value={selectedYear} onChange={handleYearChange}>

@@ -2,16 +2,16 @@
 .stories-page {
   padding: 20px;
   font-family: "Inter", sans-serif;
-  color: #ffffff;
-  background-color: #000000;
+  color: #036;
+  background-color: #ffffff;
   text-align: center;
 }
 
 /* 🔥 Breaking News Ticker - Immediate Start */
 .breaking-news-container {
   width: 100%;
-  background-color: red;
-  color: white;
+  background-color: #c20017;
+  color: #ffffff;
   overflow: hidden;
   white-space: nowrap;
   font-size: 1.4rem; /* Larger text for readability */
@@ -70,7 +70,7 @@
 .main-story-content h2 {
   font-size: 2rem;
   margin-bottom: 15px;
-  color: #ffffff;
+  color: #036;
 }
 
 .main-story-content p {
@@ -81,7 +81,7 @@
   text-overflow: ellipsis;
   font-size: 1rem;
   margin-bottom: 15px;
-  color: #c9d1d9;
+  color: #036;
 }
 
 .main-story-content .metadata {
@@ -89,12 +89,12 @@
   align-items: center;
   gap: 10px;
   font-size: 0.9rem;
-  color: #a1a1a1;
+  color: #036;
 }
 
 .main-story-content .read-more-button {
   align-self: center;
-  background-color: #ff4500;
+  background-color: #c20017;
   color: #ffffff;
   border: none;
   padding: 10px 20px;
@@ -105,7 +105,7 @@
 }
 
 .main-story-content .read-more-button:hover {
-  background-color: #e63900;
+  background-color: #c20017;
 }
 
 /* 📰 Latest News Section */
@@ -124,12 +124,12 @@
 .latest-news-header h2 {
   font-size: 1.8rem;
   margin: 0;
-  color: #ffffff;
+  color: #036;
 }
 
 .latest-news-header .see-all-link {
   font-size: 1rem;
-  color: #ff4500;
+  color: #c20017;
   text-decoration: none;
   cursor: pointer;
 }
@@ -148,9 +148,9 @@
 
 /* 🏷️ News Card */
 .news-card {
-  background-color: #1e1e1e;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -180,7 +180,7 @@
 .news-card-content h3 {
   font-size: 1.2rem;
   margin: 0 0 5px 0;
-  color: #ffffff;
+  color: #036;
 }
 
 /* 📄 Paragraph Styling */
@@ -191,12 +191,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 5px 0 0 0;
-  color: #d3d3d3;
+  color: #036;
 }
 
 /* 📌 Read More Button */
 .read-more-button {
-  background-color: #ff4500;
+  background-color: #c20017;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -210,7 +210,7 @@
 }
 
 .read-more-button:hover {
-  background-color: #ff5722;
+  background-color: #c20017;
 }
 
 /* 📱 Mobile Styling */

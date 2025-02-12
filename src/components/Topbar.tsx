@@ -16,8 +16,8 @@ const Topbar: React.FC = () => {
     return (
         <div className="topbar">
             <div className="topbar-left">
-                <img src="https://storyphotos.s3.us-east-1.amazonaws.com/logo.png" alt="Logo" className="logo-image" />
-                <h1 className="logo">Buff Nation</h1>
+                <img src="https://storyphotos.s3.us-east-1.amazonaws.com/new-new-logo.png" alt="Logo" className="logo-image" />
+                <h1 className="logo">Buff Nation News</h1>
                 <button
                     className={`menu-toggle ${menuOpen ? "open" : ""}`}
                     onClick={toggleMenu}>
@@ -25,9 +25,6 @@ const Topbar: React.FC = () => {
                 </button>
             </div>
             <div className={`topbar-right ${menuOpen ? "open" : ""}`}>
-                <Link to="/" className="nav-link" onClick={closeMenu}>
-                    Home
-                </Link>
                 <Link to="/dashboard" className="nav-link" onClick={closeMenu}>
                     Dashboard
                 </Link>
@@ -35,24 +32,11 @@ const Topbar: React.FC = () => {
                     News
                 </Link>
                 <Link to="/department-lookup" className="nav-link" onClick={closeMenu}>
-                    Department Search
+                    Department Lookup
                 </Link>
-                <a
-                    href="https://www.youtube.com/@_buffnation/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="nav-link"
-                    onClick={closeMenu}>
-                    YouTube
-                </a>
-                <a
-                    href="https://buffnationshop.myshopify.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="nav-link"
-                    onClick={closeMenu}>
-                    Store
-                </a>
+                <Link to="/about" className="nav-link" onClick={closeMenu}>
+                    About
+                </Link>
             </div>
         </div>
     );

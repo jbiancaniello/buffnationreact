@@ -272,7 +272,7 @@ const StatsCharts: React.FC<StatsChartsProps> = ({ selectedYear }) => {
               y={20} // Adjusted to position the label below the axis
               transform="rotate(-45)" // Rotate the text around its origin
               textAnchor="end" // Align text to the end for better spacing
-              fill="#ffffff" // Ensure text is white
+              fill="#036" // Ensure text is white
               fontSize="11px" // Adjust for readability
             >
               {payload.value}
