@@ -31,7 +31,7 @@ const About: React.FC = () => {
     return (
         <div className="about-container">
             <h1 className="about-title">About Us</h1>
-            <p className="about-text">Stay updated with our latest events, special offers, and more by joining our mailing list.</p>
+            <p className="about-text">Stay up to date by joining our mailing list.</p>
             <form onSubmit={handleSubmit} className="about-signup-form">
                 <input
                     type="email"

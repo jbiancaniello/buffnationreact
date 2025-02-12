@@ -25,11 +25,11 @@ const Topbar: React.FC = () => {
                 </button>
             </div>
             <div className={`topbar-right ${menuOpen ? "open" : ""}`}>
-                <Link to="/dashboard" className="nav-link" onClick={closeMenu}>
-                    Dashboard
-                </Link>
                 <Link to="/news" className="nav-link" onClick={closeMenu}>
                     News
+                </Link>
+                <Link to="/dashboard" className="nav-link" onClick={closeMenu}>
+                    Dashboard
                 </Link>
                 <Link to="/department-lookup" className="nav-link" onClick={closeMenu}>
                     Department Lookup

@@ -112,7 +112,7 @@ const StoriesPage: React.FC = () => {
     <div className="stories-page">
       <BreakingNewsTicker incidents={incidents} />
 
-      <h1>Latest News</h1>
+      <h1>Latest Story</h1>
 
       {/* Main Story */}
       <div className="main-story">
