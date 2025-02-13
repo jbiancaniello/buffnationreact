@@ -24,7 +24,7 @@
   display: inline-block;
   white-space: nowrap;
   padding-left: 50%; /* 🔥 Starts closer to the screen */
-  animation: ticker-scroll 45s ease-out infinite; /* 🔥 Smooth acceleration */
+  animation: ticker-scroll 75s ease-out infinite; /* 🔥 Smooth acceleration */
 }
 
 .ticker-item {
@@ -40,7 +40,6 @@
     transform: translateX(-100%);
   }
 }
-
 
 /* 📌 Main Story Section */
 .main-story {
