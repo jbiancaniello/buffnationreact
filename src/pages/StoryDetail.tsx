@@ -116,7 +116,7 @@ const StoryDetailsPage: React.FC = () => {
         },
     };
 
-    const imgUrl = imageUrl;
+    const imgUrl = imageUrl?.toString();
 
     return (
         <HelmetProvider>
