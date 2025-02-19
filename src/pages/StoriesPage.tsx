@@ -91,6 +91,7 @@ const StoriesPage: React.FC = () => {
   };
 
   useEffect(() => {
+    document.title = "News";
     fetchStoriesWithPhotos();
 
     const fetchIncidents = async () => {
