@@ -116,6 +116,8 @@ const StoryDetailsPage: React.FC = () => {
         },
     };
 
+    const imgUrl = imageUrl;
+
     return (
         <HelmetProvider>
             <div className="story-details-page">
@@ -134,7 +136,7 @@ const StoryDetailsPage: React.FC = () => {
                     <meta
                         property="og:image"
                         content={
-                            imageUrl || "https://example.com/default-image.jpg"
+                            imgUrl || "https://example.com/default-image.jpg"
                         }
                     />
                     <meta property="og:type" content="article" />
