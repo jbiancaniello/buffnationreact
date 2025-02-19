@@ -1,6 +1,6 @@
 // About.tsx
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/About.css";
 
 const About: React.FC = () => {
@@ -27,6 +27,11 @@ const About: React.FC = () => {
             setMessage("Something went wrong. Please try again.");
         }
     };
+
+    useEffect(() => {
+        document.title = "About Us";
+    }
+    , []);
 
     return (
         <div className="about-container">

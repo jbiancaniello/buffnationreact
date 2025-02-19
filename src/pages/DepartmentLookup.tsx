@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import "../styles/DepartmentLookup.css";
 import { Incident, Story } from "../types";
 
@@ -192,6 +192,10 @@ const DepartmentLookup: React.FC = () => {
             setErrorMessage("Department not found.");
         }
     };
+
+    useEffect(() => {
+        document.title = "Department Lookup";
+    }, []);
 
     return (
         <div className="department-lookup">

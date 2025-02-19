@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import "../styles/Dashboard.css";
 
 const StatsCharts = React.lazy(() => import("../components/StatsCharts"));
@@ -10,6 +10,10 @@ const DashboardPage: React.FC = () => {
     const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedYear(event.target.value);
     };
+
+    useEffect(() => {
+        document.title = "Dashboard";
+    }, []);
 
     return (
         <div className="dashboard">

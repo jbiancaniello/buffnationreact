@@ -77,6 +77,7 @@ const AllStoriesPage: React.FC = () => {
       setStories(data.reverse()); // Reverse for newest first
     };
     fetchStories();
+    document.title = "All News";
   }, []);
 
   const indexOfLastStory = currentPage * storiesPerPage;
