@@ -13,7 +13,7 @@ const About: React.FC = () => {
         const formData = new FormData();
         formData.append("EMAIL", email);
 
-        const mailchimpURL = "008ed8e1f0";
+        const mailchimpURL = "00a2d8e1f0";
 
         try {
             await fetch(mailchimpURL, {
