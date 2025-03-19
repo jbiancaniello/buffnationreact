@@ -13,23 +13,29 @@ const About: React.FC = () => {
     const handleMailingListSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("EMAIL", email);
-
-        const mailchimpURL = "00a2d8e1f0"; // Replace with actual Mailchimp URL
-
         try {
-            await fetch(mailchimpURL, {
+            const response = await fetch("https://t4nq714x65.execute-api.us-east-2.amazonaws.com/subscribe", {
                 method: "POST",
-                body: formData,
-                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+                mode: "cors", // ✅ Ensures cross-origin requests work
             });
-            setMessage("Successfully signed up! Check your email.");
-            setEmail("");
+
+            if (response.ok) {
+                setMessage("Successfully signed up! Check your email.");
+                setEmail("");
+            } else {
+                const errorData = await response.json();
+                setMessage(`Error: ${errorData.message || "Something went wrong. Please try again."}`);
+            }
         } catch (error) {
             setMessage("Something went wrong. Please try again.");
         }
     };
+
+
 
     // Contact Us form submission
     const handleContactSubmit = async (e: React.FormEvent) => {
