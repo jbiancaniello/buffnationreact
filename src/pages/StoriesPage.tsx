@@ -139,7 +139,7 @@ const StoriesPage: React.FC = () => {
       <section className="latest-news">
         <div className="latest-news-header">
           <h2>Latest News</h2>
-          <a href="/all-stories" className="see-all-link">
+          <a href="/news" className="see-all-link">
             See all
           </a>
         </div>
