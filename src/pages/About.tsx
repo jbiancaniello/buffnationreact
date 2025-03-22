@@ -40,28 +40,22 @@ const About: React.FC = () => {
     // Contact Us form submission
     const handleContactSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const response = await fetch("https://submit-form.com/4S3ndfNhD", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: contactName,
+                email: contactEmail,
+                message: contactMessage,
+            }),
+        });
 
-        try {
-            const response = await fetch("https://submit-form.com/4S3ndfNhD", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: contactName,
-                    email: contactEmail,
-                    message: contactMessage,
-                }),
-                mode: "no-cors", // ❗ TEMPORARY FIX - will not return response body
-            });
-
-            setContactResponse("Thank you for reaching out! We'll get back to you soon.");
-            setContactName("");
-            setContactEmail("");
-            setContactMessage("");
-        } catch (error) {
-            setContactResponse("Something went wrong. Please try again.");
-        }
+        setContactResponse("Thank you for reaching out! We'll get back to you soon.");
+        setContactName("");
+        setContactEmail("");
+        setContactMessage("");
     };
 
 
