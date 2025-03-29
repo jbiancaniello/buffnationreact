@@ -120,6 +120,7 @@
   gap: 20px;
   flex-wrap: wrap;
   margin: 30px auto;
+  margin-bottom: 0px !important;
   max-width: 1200px;
   padding: 0 20px;
 }
@@ -290,4 +291,11 @@
   .latest-news-header {
     padding: 0 10px;
   }
+}
+
+.junk {
+  margin-top: 0 !important;
+  color: red;
+  font-size: 2rem;
+  font-weight: bold;
 }

@@ -144,6 +144,7 @@ const StoriesPage: React.FC = () => {
             <img src="/advertisements/IMG_0662.PNG" alt="Advertisement" className="ad-image ad-image-2" />
           </a>
         </div>
+        <p className="junk">Junk Removal & Demolition</p>
       </section>
 
       {/* Latest News */}
