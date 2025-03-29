@@ -107,6 +107,61 @@
   background-color: #c20017;
 }
 
+.advertisement-section div {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.advertisement-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 30px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.ad-image {
+  flex: 1 1 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  max-width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.ad-image:hover {
+  transform: scale(1.02);
+}
+
+/* Custom styling for each ad */
+.ad-image-1 {
+  width: 150px;
+  height: auto;
+}
+
+.ad-image-2 {
+  width: 900px;
+  height: auto;
+}
+
+/* Responsive stacking */
+@media screen and (max-width: 768px) {
+  .advertisement-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ad-image {
+    height: auto;
+    max-height: 250px;
+  }
+}
+
 /* 📰 Latest News Section */
 .latest-news {
   margin-bottom: 40px;

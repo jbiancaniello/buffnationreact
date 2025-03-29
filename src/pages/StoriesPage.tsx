@@ -135,6 +135,17 @@ const StoriesPage: React.FC = () => {
         </div>
       </div>
 
+      <section className="advertisement-section">
+        <div className="advertisement-row">
+          <a href="https://jrliindustries.com/estimate-inquiry/" target="_blank" rel="noopener noreferrer">
+            <img src="/advertisements/IMG_0663.PNG" alt="Advertisement" className="ad-image ad-image-1" />
+          </a>
+          <a href="https://jrliindustries.com/estimate-inquiry/" target="_blank" rel="noopener noreferrer">
+            <img src="/advertisements/IMG_0662.PNG" alt="Advertisement" className="ad-image ad-image-2" />
+          </a>
+        </div>
+      </section>
+
       {/* Latest News */}
       <section className="latest-news">
         <div className="latest-news-header">
