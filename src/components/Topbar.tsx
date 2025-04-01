@@ -16,8 +16,10 @@ const Topbar: React.FC = () => {
     return (
         <div className="topbar">
             <div className="topbar-left">
-                <img src="https://storyphotos.s3.us-east-1.amazonaws.com/new-new-logo.png" alt="Logo" className="logo-image" />
-                <h1 className="logo">Buff Nation News</h1>
+                <Link to="/home" className="nav-link" onClick={closeMenu}>
+                    <img src="https://storyphotos.s3.us-east-1.amazonaws.com/new-new-logo.png" alt="Logo" className="logo-image" />
+                </Link>
+                <h1 className="logo">Buff Nation</h1>
                 <button
                     className={`menu-toggle ${menuOpen ? "open" : ""}`}
                     onClick={toggleMenu}>

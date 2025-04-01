@@ -140,11 +140,16 @@ const StoriesPage: React.FC = () => {
           <a href="https://jrliindustries.com/estimate-inquiry/" target="_blank" rel="noopener noreferrer">
             <img src="/advertisements/IMG_0663.PNG" alt="Advertisement" className="ad-image ad-image-1" />
           </a>
+
+          <div className="ad-text-block">
+            <div className="ad-text-line">Junk Removal & Demolition</div>
+            <div className="ad-phone">631-600-0262</div>
+          </div>
+
           <a href="https://jrliindustries.com/estimate-inquiry/" target="_blank" rel="noopener noreferrer">
             <img src="/advertisements/IMG_0662.PNG" alt="Advertisement" className="ad-image ad-image-2" />
           </a>
         </div>
-        <p className="junk">Junk Removal & Demolition</p>
       </section>
 
       {/* Latest News */}
